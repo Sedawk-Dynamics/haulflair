@@ -1,0 +1,295 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* ============================================================
+     Haulflair Brand Palette — exact hex per design brief
+     ============================================================ */
+  --navy: #141b34;          /* Deep Navy — primary dark background */
+  --navy-deep: #0d1220;     /* Gradient end / deepest dark */
+  --navy-2: #1b2440;        /* Raised dark surface / card on dark */
+  --navy-3: #232e52;        /* Dark card hover */
+  --electric: #2b6cdf;      /* Electric Blue — primary accent */
+  --electric-bright: #4d8bff; /* Brighter accent for text on dark */
+  --electric-soft: rgba(43, 108, 223, 0.12);
+  --white: #ffffff;
+  --light-grey: #e8edf5;    /* Secondary text / subtle borders */
+  --mid-grey: #666680;      /* Supporting text, labels, captions */
+  --off-white: #f5f7fa;     /* Light section backgrounds */
+  --cloud-border: #e0e5f0;  /* Card borders on light sections */
+  --ink: #141b34;           /* Headings on light backgrounds */
+  --slate: #4a5168;         /* Body copy on light backgrounds */
+
+  /* ---- shadcn / token bridge (kept so /components/ui still resolve) ---- */
+  --background: var(--navy-deep);
+  --foreground: var(--white);
+  --card: var(--navy-2);
+  --card-foreground: var(--white);
+  --popover: var(--navy-2);
+  --popover-foreground: var(--white);
+  --primary: var(--electric);
+  --primary-foreground: var(--white);
+  --secondary: var(--navy-2);
+  --secondary-foreground: var(--light-grey);
+  --muted: var(--navy-2);
+  --muted-foreground: var(--mid-grey);
+  --accent: var(--electric);
+  --accent-foreground: var(--white);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: var(--white);
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: var(--electric);
+  --radius: 0.625rem;
+
+  /* ---- legacy brand aliases (so existing classNames keep working) ---- */
+  --brand-blue: var(--electric);
+  --brand-blue-bright: var(--electric-bright);
+  --brand-blue-dim: #1f4ea0;
+  --brand-blue-glow: #5f9bff;
+  --surface-1: #10162b;
+  --surface-2: var(--navy);
+  --surface-3: var(--navy-2);
+  --surface-4: var(--navy-3);
+  --surface-border: rgba(255, 255, 255, 0.08);
+  --surface-border-hover: rgba(43, 108, 223, 0.5);
+  --text-primary: var(--white);
+  --text-secondary: var(--light-grey);
+  --text-muted: #9aa3bd;
+}
+
+@theme inline {
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-sora);
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+
+  /* Brand colour utilities → bg-navy, text-electric, border-cloud-border, etc. */
+  --color-navy: var(--navy);
+  --color-navy-deep: var(--navy-deep);
+  --color-navy-2: var(--navy-2);
+  --color-navy-3: var(--navy-3);
+  --color-electric: var(--electric);
+  --color-electric-bright: var(--electric-bright);
+  --color-white: var(--white);
+  --color-light-grey: var(--light-grey);
+  --color-mid-grey: var(--mid-grey);
+  --color-off-white: var(--off-white);
+  --color-cloud-border: var(--cloud-border);
+  --color-ink: var(--ink);
+  --color-slate: var(--slate);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 8px);
+
+  /* legacy brand aliases */
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-bright: var(--brand-blue-bright);
+  --color-brand-blue-dim: var(--brand-blue-dim);
+  --color-brand-blue-glow: var(--brand-blue-glow);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-surface-4: var(--surface-4);
+  --color-surface-border: var(--surface-border);
+  --color-surface-border-hover: var(--surface-border-hover);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-navy-deep text-white antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  /* Display font for headings — premium tech-forward feel (Sora) */
+  .font-display {
+    font-family: var(--font-sora), var(--font-inter), system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ============================================================
+   Section-label motif — 3px electric-blue left accent line
+   Used on every section label across the site.
+   ============================================================ */
+.section-label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding-left: 0.75rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--electric);
+}
+.section-label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 1.05em;
+  border-radius: 2px;
+  background: var(--electric);
+}
+.section-label.on-dark {
+  color: var(--electric-bright);
+}
+.section-label.is-centered {
+  padding-left: 0;
+}
+.section-label.is-centered::before {
+  position: static;
+  transform: none;
+  display: inline-block;
+  margin-right: 0.6rem;
+  width: 22px;
+  height: 3px;
+}
+
+/* ============================================================
+   Scroll reveal — CSS only, toggled by IntersectionObserver
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+.reveal-left {
+  transform: translateX(-32px);
+}
+.reveal-right {
+  transform: translateX(32px);
+}
+.reveal-left.in-view,
+.reveal-right.in-view {
+  transform: none;
+}
+
+/* ============================================================
+   Hero route-map — CSS-only animated trade-lane dots
+   ============================================================ */
+@keyframes route-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes route-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.route-node {
+  animation: route-pulse 2.6s ease-in-out infinite;
+}
+.route-line {
+  stroke-dasharray: 6 6;
+  animation: route-dash 1.4s linear infinite;
+}
+@keyframes route-dash {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+.route-dot {
+  offset-rotate: 0deg;
+  animation: route-travel 4s linear infinite;
+}
+@keyframes route-travel {
+  from {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  to {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+/* Soft electric glow utility for CTAs */
+.glow-electric {
+  box-shadow: 0 8px 30px -6px rgba(43, 108, 223, 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .reveal-left,
+  .reveal-right {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .route-node,
+  .route-line,
+  .route-dot {
+    animation: none !important;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--navy-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(43, 108, 223, 0.4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--electric);
+}
