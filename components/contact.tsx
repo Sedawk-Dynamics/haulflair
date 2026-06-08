@@ -20,18 +20,18 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="relative overflow-hidden bg-navy py-24 lg:py-32">
+    <section id="contact" className="relative overflow-hidden bg-sec-page-alt py-24 lg:py-32">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/4 top-1/4 h-[420px] w-[420px] rounded-full bg-electric/10 blur-[130px]" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <Reveal className="mx-auto mb-16 max-w-xl text-center">
-          <span className="section-label on-dark is-centered">Get in Touch</span>
-          <h2 className="font-display mb-4 mt-4 text-4xl font-bold tracking-tight text-white text-balance md:text-5xl">
+          <span className="section-label is-centered">Get in Touch</span>
+          <h2 className="font-display mb-4 mt-4 text-4xl font-bold tracking-tight text-sec-heading text-balance md:text-5xl">
             Ready to Move Cargo?
           </h2>
-          <p className="text-[1.0625rem] leading-[1.7] text-light-grey/80 text-pretty">
+          <p className="text-[1.0625rem] leading-[1.7] text-sec-body text-pretty">
             Tell us about your shipment or partnership requirements. Our team reviews every inquiry
             and responds within one business day with a clear, transparent plan.
           </p>
@@ -41,16 +41,16 @@ export function Contact() {
           {/* Contact info */}
           <Reveal variant="left" delay={120} className="space-y-6 lg:col-span-2">
             <div>
-              <h3 className="font-display mb-6 text-xl font-bold text-white">Contact Details</h3>
+              <h3 className="font-display mb-6 text-xl font-bold text-sec-heading">Contact Details</h3>
               <div className="space-y-5">
                 <ContactItem
                   icon={Phone}
                   label="Phone"
                   lines={[
-                    <a key="p1" href="tel:7259963859" className="transition-colors hover:text-white">
+                    <a key="p1" href="tel:7259963859" className="transition-colors hover:text-sec-heading">
                       +91 7259963859
                     </a>,
-                    <a key="p2" href="tel:8310172085" className="transition-colors hover:text-white">
+                    <a key="p2" href="tel:8310172085" className="transition-colors hover:text-sec-heading">
                       +91 8310172085
                     </a>,
                   ]}
@@ -62,14 +62,14 @@ export function Contact() {
                     <a
                       key="e1"
                       href="mailto:info@haulflair.com"
-                      className="transition-colors hover:text-white"
+                      className="transition-colors hover:text-sec-heading"
                     >
                       info@haulflair.com
                     </a>,
                     <a
                       key="e2"
                       href="mailto:sales@haulflair.com"
-                      className="transition-colors hover:text-white"
+                      className="transition-colors hover:text-sec-heading"
                     >
                       sales@haulflair.com
                     </a>,
@@ -79,8 +79,8 @@ export function Contact() {
             </div>
 
             <div className="rounded-xl border border-electric/25 bg-electric/8 p-5">
-              <p className="text-sm leading-relaxed text-light-grey/85">
-                <span className="font-semibold text-electric-bright">
+              <p className="text-sm leading-relaxed text-sec-body">
+                <span className="font-semibold text-electric">
                   Every inquiry receives a personalised response within one business day.
                 </span>{' '}
                 No automated replies, no generic quotes.
@@ -91,12 +91,12 @@ export function Contact() {
           {/* Form */}
           <Reveal variant="right" delay={200} className="lg:col-span-3">
             {submitted ? (
-              <div className="flex h-full min-h-[360px] flex-col items-center justify-center gap-4 rounded-2xl border border-white/10 bg-white/4 p-10 text-center">
+              <div className="flex h-full min-h-[360px] flex-col items-center justify-center gap-4 rounded-2xl border border-sec-border bg-sec-card p-10 text-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full border border-electric/30 bg-electric/15">
                   <CheckCircle size={28} className="text-electric-bright" />
                 </div>
-                <h3 className="font-display text-xl font-bold text-white">Message Sent!</h3>
-                <p className="max-w-sm text-sm leading-relaxed text-light-grey/80">
+                <h3 className="font-display text-xl font-bold text-sec-heading">Message Sent!</h3>
+                <p className="max-w-sm text-sm leading-relaxed text-sec-body">
                   Thank you for reaching out. The Haulflair team will review your inquiry and respond
                   within one business day.
                 </p>
@@ -104,7 +104,7 @@ export function Contact() {
             ) : (
               <form
                 onSubmit={handleSubmit}
-                className="space-y-5 rounded-2xl border border-white/10 bg-white/4 p-8"
+                className="space-y-5 rounded-2xl border border-sec-border bg-sec-card p-8"
               >
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <FormField label="Your Name" name="name" type="text" value={form.name} onChange={handleChange} placeholder="John Smith" required />
@@ -117,7 +117,7 @@ export function Contact() {
                 <div>
                   <label
                     htmlFor="message"
-                    className="mb-2 block text-xs font-semibold uppercase tracking-wider text-light-grey/70"
+                    className="mb-2 block text-xs font-semibold uppercase tracking-wider text-sec-body"
                   >
                     Message
                   </label>
@@ -128,7 +128,7 @@ export function Contact() {
                     onChange={handleChange}
                     placeholder="Tell us about your shipment requirements, origin, destination, cargo type..."
                     rows={5}
-                    className="w-full resize-none rounded-lg border border-white/15 bg-navy-deep/60 px-4 py-3 text-sm text-white placeholder:text-mid-grey transition focus:border-electric focus:outline-none focus:ring-1 focus:ring-electric/40"
+                    className="w-full resize-none rounded-lg border border-sec-border bg-sec-card px-4 py-3 text-sm text-sec-heading placeholder:text-mid-grey transition focus:border-electric focus:outline-none focus:ring-1 focus:ring-electric/40"
                   />
                 </div>
                 <button
@@ -164,7 +164,7 @@ function ContactItem({
       <div>
         <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-mid-grey">{label}</p>
         {lines.map((line, i) => (
-          <p key={i} className="text-sm text-light-grey/80">
+          <p key={i} className="text-sm text-sec-body">
             {line}
           </p>
         ))}
@@ -194,7 +194,7 @@ function FormField({
     <div>
       <label
         htmlFor={name}
-        className="mb-2 block text-xs font-semibold uppercase tracking-wider text-light-grey/70"
+        className="mb-2 block text-xs font-semibold uppercase tracking-wider text-sec-body"
       >
         {label}
       </label>
@@ -206,7 +206,7 @@ function FormField({
         onChange={onChange}
         placeholder={placeholder}
         required={required}
-        className="w-full rounded-lg border border-white/15 bg-navy-deep/60 px-4 py-3 text-sm text-white placeholder:text-mid-grey transition focus:border-electric focus:outline-none focus:ring-1 focus:ring-electric/40"
+        className="w-full rounded-lg border border-sec-border bg-sec-card px-4 py-3 text-sm text-sec-heading placeholder:text-mid-grey transition focus:border-electric focus:outline-none focus:ring-1 focus:ring-electric/40"
       />
     </div>
   )

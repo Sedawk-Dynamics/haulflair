@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Sun, Moon } from 'lucide-react'
+import { useTheme } from 'next-themes'
 
 const navLinks = [
   { label: 'Services', href: '#services' },
@@ -10,6 +11,26 @@ const navLinks = [
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ]
+
+function ThemeToggle({ className = '' }: { className?: string }) {
+  const { resolvedTheme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+
+  const isDark = resolvedTheme === 'dark'
+
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      className={`flex h-9 w-9 items-center justify-center rounded-lg border border-white/15 bg-white/5 text-light-grey transition-colors hover:border-electric/50 hover:text-white ${className}`}
+    >
+      {/* render icon only after mount to avoid hydration mismatch */}
+      {mounted ? isDark ? <Sun size={17} /> : <Moon size={17} /> : <Sun size={17} className="opacity-0" />}
+    </button>
+  )
+}
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -59,8 +80,9 @@ export function Navbar() {
               ))}
             </nav>
 
-            {/* CTA Button */}
-            <div className="hidden md:flex items-center">
+            {/* CTA + theme toggle */}
+            <div className="hidden md:flex items-center gap-3">
+              <ThemeToggle />
               <a
                 href="mailto:sales@haulflair.com"
                 className="px-5 py-2.5 rounded-lg bg-electric text-white text-sm font-semibold hover:bg-electric-bright hover:glow-electric transition-all duration-200 shadow-lg shadow-electric/25"
@@ -69,15 +91,18 @@ export function Navbar() {
               </a>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2 rounded-lg text-light-grey hover:text-white hover:bg-white/10 transition-colors"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle menu"
-              aria-expanded={menuOpen}
-            >
-              {menuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
+            {/* Mobile controls */}
+            <div className="flex items-center gap-2 md:hidden">
+              <ThemeToggle />
+              <button
+                className="p-2 rounded-lg text-light-grey hover:text-white hover:bg-white/10 transition-colors"
+                onClick={() => setMenuOpen(!menuOpen)}
+                aria-label="Toggle menu"
+                aria-expanded={menuOpen}
+              >
+                {menuOpen ? <X size={22} /> : <Menu size={22} />}
+              </button>
+            </div>
           </div>
         </div>
       </header>

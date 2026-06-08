@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, Sora } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { ThemeProvider } from '@/components/theme-provider'
 import { OpeningAnimation } from '@/components/opening-animation'
 import './globals.css'
  
@@ -54,10 +55,21 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${sora.variable} bg-navy-deep`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} ${sora.variable} bg-navy-deep`}
+    >
       <body className="font-sans antialiased">
-        <OpeningAnimation />
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          <OpeningAnimation />
+          {children}
+        </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

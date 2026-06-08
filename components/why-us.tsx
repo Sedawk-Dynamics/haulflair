@@ -46,7 +46,7 @@ const points: Point[] = [
 
 export function WhyUs() {
   return (
-    <section id="why-us" className="relative overflow-hidden bg-navy py-24 lg:py-32">
+    <section id="why-us" className="relative overflow-hidden bg-sec-page-alt py-24 lg:py-32">
       {/* ambient glows */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute right-0 top-0 h-[600px] w-[600px] rounded-full bg-electric/10 blur-[120px]" />
@@ -55,8 +55,8 @@ export function WhyUs() {
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <Reveal className="mx-auto mb-16 max-w-2xl text-center">
-          <span className="section-label on-dark is-centered">Why Choose Haulflair</span>
-          <h2 className="font-display mb-4 mt-4 text-4xl font-bold tracking-tight text-white text-balance md:text-[2.625rem]">
+          <span className="section-label is-centered">Why Choose Haulflair</span>
+          <h2 className="font-display mb-4 mt-4 text-4xl font-bold tracking-tight text-sec-heading text-balance md:text-[2.625rem]">
             Logistics Built on Partnership
           </h2>
         </Reveal>
@@ -71,7 +71,7 @@ export function WhyUs() {
                 delay={(i % 3) * 90}
                 className={isLast ? 'md:col-span-2 lg:col-span-1' : ''}
               >
-                <div className="group relative h-full overflow-hidden rounded-xl border border-white/10 border-l-2 border-l-electric/60 bg-white/3 p-7 transition-all duration-300 hover:border-l-electric hover:bg-white/6">
+                <div className="group relative h-full overflow-hidden rounded-xl border border-sec-border border-l-2 border-l-electric/60 bg-sec-card p-7 transition-all duration-300 hover:border-l-electric hover:bg-sec-card-hover">
                   {/* big background accent number */}
                   <span className="font-display pointer-events-none absolute -top-3 right-3 select-none text-7xl font-extrabold leading-none text-electric/10">
                     {String(i + 1).padStart(2, '0')}
@@ -86,10 +86,10 @@ export function WhyUs() {
                   <div className="relative mb-5 flex h-11 w-11 items-center justify-center rounded-xl border border-electric/40 bg-electric/15 text-electric-bright">
                     <Icon size={20} />
                   </div>
-                  <h3 className="font-display relative mb-3 text-lg font-semibold leading-snug text-white">
+                  <h3 className="font-display relative mb-3 text-lg font-semibold leading-snug text-sec-heading">
                     {point.title}
                   </h3>
-                  <p className="relative text-sm leading-relaxed text-light-grey/75">
+                  <p className="relative text-sm leading-relaxed text-sec-body">
                     {point.description}
                   </p>
                 </div>

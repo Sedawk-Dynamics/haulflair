@@ -6,7 +6,7 @@ import { Reveal } from '@/components/reveal'
 
 export function About() {
   return (
-    <section id="about" className="relative overflow-hidden bg-off-white py-24 lg:py-32">
+    <section id="about" className="relative overflow-hidden bg-sec-page-alt py-24 lg:py-32">
       {/* subtle CSS geometric texture (no image file) */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.5]"
@@ -21,7 +21,7 @@ export function About() {
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
           {/* Image */}
           <Reveal variant="left" className="relative order-2 lg:order-1">
-            <div className="relative aspect-4/3 overflow-hidden rounded-2xl border border-cloud-border shadow-xl shadow-navy/10">
+            <div className="relative aspect-4/3 overflow-hidden rounded-2xl border border-sec-border shadow-xl shadow-navy/10">
               <Image
                 src="/images/about-logistics.png"
                 alt="Haulflair logistics operations"
@@ -34,7 +34,7 @@ export function About() {
             </div>
 
             {/* Floating stat card */}
-            <div className="absolute -bottom-6 right-4 rounded-xl border border-electric/30 bg-white p-5 shadow-xl shadow-navy/10 md:right-8">
+            <div className="absolute -bottom-6 right-4 rounded-xl border border-electric/30 bg-sec-card p-5 shadow-xl shadow-navy/10 md:right-8">
               <p className="font-display text-3xl font-bold text-electric">9+</p>
               <p className="mt-0.5 text-xs font-medium uppercase tracking-widest text-mid-grey">
                 Logistics Solutions
@@ -49,17 +49,17 @@ export function About() {
           <Reveal variant="right" delay={120} className="order-1 lg:order-2">
             <span className="section-label">About Haulflair</span>
 
-            <h2 className="font-display mb-6 mt-4 text-4xl font-bold tracking-tight text-ink text-balance md:text-[2.625rem]">
+            <h2 className="font-display mb-6 mt-4 text-4xl font-bold tracking-tight text-sec-heading text-balance md:text-[2.625rem]">
               Redefining the Freight Forwarding Experience
             </h2>
 
             {/* Emphasised lead line — strongest line on the page */}
-            <p className="font-display mb-6 text-2xl font-semibold leading-snug text-ink md:text-[1.75rem]">
+            <p className="font-display mb-6 text-2xl font-semibold leading-snug text-sec-heading md:text-[1.75rem]">
               Global trade is complex.{' '}
               <span className="text-electric">Moving cargo shouldn&apos;t be.</span>
             </p>
 
-            <div className="space-y-5 text-[1.0625rem] leading-[1.7] text-slate">
+            <div className="space-y-5 text-[1.0625rem] leading-[1.7] text-sec-body">
               <p>
                 Haulflair is a new-generation freight and logistics company built for the way global
                 trade actually works today. We combine hands-on operational expertise with technology

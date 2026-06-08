@@ -58,6 +58,27 @@
   --text-primary: var(--white);
   --text-secondary: var(--light-grey);
   --text-muted: #9aa3bd;
+
+  /* ---- Theme-aware "editorial section" surfaces (light default) ----
+     These flip in .dark so About / Services / Mission / Values turn dark
+     while the permanently-dark sections stay as designed. */
+  --sec-page: #ffffff;
+  --sec-page-alt: #f5f7fa;
+  --sec-card: #ffffff;
+  --sec-card-hover: #f0f4ff;
+  --sec-border: #e0e5f0;
+  --sec-heading: #141b34;
+  --sec-body: #4a5168;
+}
+
+.dark {
+  --sec-page: #0d1220;
+  --sec-page-alt: #141b34;
+  --sec-card: #131a30;
+  --sec-card-hover: #1a2440;
+  --sec-border: rgba(255, 255, 255, 0.1);
+  --sec-heading: #ffffff;
+  --sec-body: #c4ccdd;
 }
 
 @theme inline {
@@ -79,6 +100,15 @@
   --color-cloud-border: var(--cloud-border);
   --color-ink: var(--ink);
   --color-slate: var(--slate);
+
+  /* theme-aware section surfaces */
+  --color-sec-page: var(--sec-page);
+  --color-sec-page-alt: var(--sec-page-alt);
+  --color-sec-card: var(--sec-card);
+  --color-sec-card-hover: var(--sec-card-hover);
+  --color-sec-border: var(--sec-border);
+  --color-sec-heading: var(--sec-heading);
+  --color-sec-body: var(--sec-body);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);

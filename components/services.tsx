@@ -1,5 +1,6 @@
 'use client'
 
+import type { MouseEvent } from 'react'
 import {
   Globe,
   Ship,
@@ -81,18 +82,27 @@ const services: Service[] = [
   },
 ]
 
+// Tracks the cursor inside a card and exposes it as CSS vars for the spotlight.
+// Direct style writes (no React state) keep it smooth — no re-render per move.
+function handleSpotlight(e: MouseEvent<HTMLDivElement>) {
+  const el = e.currentTarget
+  const rect = el.getBoundingClientRect()
+  el.style.setProperty('--spot-x', `${e.clientX - rect.left}px`)
+  el.style.setProperty('--spot-y', `${e.clientY - rect.top}px`)
+}
+
 export function Services() {
   return (
-    <section id="services" className="bg-white py-24 lg:py-32">
+    <section id="services" className="bg-sec-page py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Header */}
         <Reveal className="mb-14">
           <span className="section-label">Our Services &amp; Solutions</span>
           <div className="mt-4 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <h2 className="font-display max-w-xl text-4xl font-bold tracking-tight text-ink text-balance md:text-[2.625rem]">
+            <h2 className="font-display max-w-xl text-4xl font-bold tracking-tight text-sec-heading text-balance md:text-[2.625rem]">
               End-to-End Logistics Solutions
             </h2>
-            <p className="max-w-md text-[1.0625rem] leading-[1.7] text-slate text-pretty">
+            <p className="max-w-md text-[1.0625rem] leading-[1.7] text-sec-body text-pretty">
               From first mile to final delivery, we coordinate every stage of your supply chain with
               precision, transparency, and operational expertise.
             </p>
@@ -118,6 +128,37 @@ export function Services() {
           ))}
         </div>
       </div>
+
+      <style>{`
+        /* cursor-follow spotlight */
+        .hf-spot {
+          background: radial-gradient(
+            220px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+            rgba(43, 108, 223, 0.18),
+            transparent 60%
+          );
+        }
+        .hf-spot--bright {
+          background: radial-gradient(
+            240px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+            rgba(125, 176, 255, 0.22),
+            transparent 60%
+          );
+        }
+        /* glowing corner status dot */
+        .hf-dot {
+          box-shadow: 0 0 0 0 rgba(43, 108, 223, 0.45);
+          animation: hfDotPulse 2.6s ease-out infinite;
+        }
+        @keyframes hfDotPulse {
+          0%   { box-shadow: 0 0 0 0 rgba(43, 108, 223, 0.5); }
+          70%  { box-shadow: 0 0 0 8px rgba(43, 108, 223, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(43, 108, 223, 0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hf-dot { animation: none; }
+        }
+      `}</style>
     </section>
   )
 }
@@ -125,16 +166,29 @@ export function Services() {
 function ServiceCard({ service }: { service: Service }) {
   const Icon = service.icon
   return (
-    <div className="group relative h-full overflow-hidden rounded-xl border border-cloud-border bg-white p-6 shadow-[0_4px_24px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_40px_rgba(20,27,52,0.12)]">
+    <div
+      onMouseMove={handleSpotlight}
+      className="hf-card group relative h-full overflow-hidden rounded-xl border border-sec-border bg-sec-card p-6 shadow-[0_4px_24px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-electric/40 hover:shadow-[0_14px_40px_rgba(20,27,52,0.16)]"
+    >
+      {/* cursor spotlight */}
+      <span className="hf-spot pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       {/* electric top accent */}
       <span className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-electric transition-transform duration-300 group-hover:scale-x-100" />
-      <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg border border-electric/20 bg-electric/10 text-electric transition-colors duration-300 group-hover:bg-electric group-hover:text-white">
-        <Icon size={20} />
+      {/* glowing corner dot */}
+      <span className="hf-dot pointer-events-none absolute right-4 top-4 h-2.5 w-2.5 rounded-full bg-electric/60 transition-colors duration-300 group-hover:bg-electric-bright" />
+
+      <div className="relative">
+        <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg border border-electric/20 bg-electric/10 text-electric transition-colors duration-300 group-hover:bg-electric group-hover:text-white">
+          <Icon size={20} />
+        </div>
+        <h3 className="font-display mb-2 text-lg font-semibold leading-snug text-sec-heading">
+          {service.title}
+        </h3>
+        <p className="text-sm leading-relaxed text-sec-body">{service.description}</p>
       </div>
-      <h3 className="font-display mb-2 text-lg font-semibold leading-snug text-ink">
-        {service.title}
-      </h3>
-      <p className="text-sm leading-relaxed text-slate">{service.description}</p>
+
+      {/* animated tracking line at the base */}
+      <span className="pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-linear-to-r from-electric to-electric-bright opacity-0 transition-all duration-500 group-hover:scale-x-100 group-hover:opacity-100" />
     </div>
   )
 }
@@ -142,19 +196,25 @@ function ServiceCard({ service }: { service: Service }) {
 function FeaturedCard({ service }: { service: Service }) {
   const Icon = service.icon
   return (
-    <div className="group relative h-full overflow-hidden rounded-xl border border-electric/40 bg-linear-to-br from-navy to-navy-deep p-7 shadow-[0_14px_40px_rgba(20,27,52,0.25)] transition-all duration-300 hover:-translate-y-1">
+    <div
+      onMouseMove={handleSpotlight}
+      className="hf-card group relative h-full overflow-hidden rounded-xl border border-electric/40 bg-linear-to-br from-navy to-navy-deep p-7 shadow-[0_14px_40px_rgba(20,27,52,0.25)] transition-all duration-300 hover:-translate-y-1 hover:border-electric/70"
+    >
+      <span className="hf-spot hf-spot--bright pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       <span className="absolute inset-x-0 top-0 h-[3px] bg-electric" />
       {/* Core Service badge */}
       <span className="absolute right-5 top-5 rounded-full border border-electric/40 bg-electric/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-electric-bright">
         Core Service
       </span>
-      <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg border border-electric/40 bg-electric/20 text-electric-bright">
+      <div className="relative mb-5 flex h-12 w-12 items-center justify-center rounded-lg border border-electric/40 bg-electric/20 text-electric-bright">
         <Icon size={22} />
       </div>
-      <h3 className="font-display mb-3 text-2xl font-bold leading-snug text-white">
+      <h3 className="font-display relative mb-3 text-2xl font-bold leading-snug text-white">
         {service.title}
       </h3>
-      <p className="text-[15px] leading-relaxed text-light-grey/85">{service.description}</p>
+      <p className="relative text-[15px] leading-relaxed text-light-grey/85">{service.description}</p>
+
+      <span className="pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-linear-to-r from-electric to-electric-bright opacity-0 transition-all duration-500 group-hover:scale-x-100 group-hover:opacity-100" />
     </div>
   )
 }
