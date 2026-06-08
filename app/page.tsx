@@ -4,6 +4,7 @@ import { TrustBar } from '@/components/trust-bar'
 import { About } from '@/components/about'
 import { Services } from '@/components/services'
 import { WhyUs } from '@/components/why-us'
+import { MovingTextSection } from '@/components/moving-text-section'
 import { MissionVision } from '@/components/mission-vision'
 import { Values } from '@/components/values'
 import { Contact } from '@/components/contact'
@@ -18,6 +19,7 @@ export default function Home() {
       <About />
       <Services />
       <WhyUs />
+      <MovingTextSection />
       <MissionVision />
       <Values />
       <Contact />

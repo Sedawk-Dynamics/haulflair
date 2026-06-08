@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, Sora } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { OpeningAnimation } from '@/components/opening-animation'
 import './globals.css'
  
 const inter = Inter({
@@ -55,6 +56,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${sora.variable} bg-navy-deep`}>
       <body className="font-sans antialiased">
+        <OpeningAnimation />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
