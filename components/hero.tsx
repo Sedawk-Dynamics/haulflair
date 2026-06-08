@@ -1,7 +1,7 @@
 'use client'
 
 import { ArrowRight, ChevronDown } from 'lucide-react'
-import { RouteMap } from '@/components/route-map'
+import { GlobeNetwork } from '@/components/globe-network'
 
 const trustPills = [
   'US Drayage Specialists',
@@ -106,7 +106,7 @@ export function Hero() {
           style={{ animation: 'heroIn 1s ease-out 0.2s both' }}
         >
           <div className="absolute inset-0 flex items-center justify-center">
-            <RouteMap />
+            <GlobeNetwork />
           </div>
 
           {/* Floating metric cards */}
