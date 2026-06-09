@@ -2,56 +2,133 @@ import type { CSSProperties } from 'react'
 
 /**
  * "Global Logistics Network" hero visual.
- * A spinning wireframe globe (animated meridians) with glowing trade corridors,
- * flowing cargo particles, pulsing port nodes and a tilted satellite orbit.
+ * An orthographic dotted-continents globe (real landmass projection) with a
+ * curved lat/long graticule, pulsing port nodes sitting on the continents, and
+ * glowing trade corridors with flowing cargo particles between them.
  * Pure SVG + CSS transforms/opacity — GPU friendly, no animation library,
  * safe for the above-the-fold hero (LCP).
  */
 
-const C = 300 // center
-const R = 200 // globe radius
+const C = 300
+const R = 206
+const LON0 = 10 // view centred over Europe/Africa
+const LAT0 = 18 // slight north tilt
 
-type Pt = { x: number; y: number; label: string }
+const sin = (d: number) => Math.sin((d * Math.PI) / 180)
+const cos = (d: number) => Math.cos((d * Math.PI) / 180)
 
-// Approximate port/hub positions on the sphere face.
-const NODES: Record<string, Pt> = {
-  us: { x: 150, y: 305, label: 'US East Coast' },
-  eu: { x: 250, y: 232, label: 'Europe' },
-  asia: { x: 408, y: 250, label: 'Asia' },
-  me: { x: 356, y: 312, label: 'Middle East' },
-  india: { x: 392, y: 348, label: 'India' },
-  north: { x: 312, y: 150, label: 'North Hub' },
+function project(lon: number, lat: number) {
+  const dl = lon - LON0
+  const cosc = sin(LAT0) * sin(lat) + cos(LAT0) * cos(lat) * cos(dl)
+  const x = R * cos(lat) * sin(dl)
+  const y = R * (cos(LAT0) * sin(lat) - sin(LAT0) * cos(lat) * cos(dl))
+  return { x: C + x, y: C - y, cosc, visible: cosc > 0.02 }
 }
 
-// Trade corridors (the brief's required connections + global lanes).
-const ROUTES: Array<[keyof typeof NODES, keyof typeof NODES, number]> = [
-  ['eu', 'us', 95], // Europe ↔ USA
-  ['asia', 'eu', 80], // Asia ↔ Europe
-  ['me', 'india', 38], // Middle East ↔ India
-  ['asia', 'north', 70], // Asia ↔ global north lane
-  ['us', 'north', 60], // USA ↔ global north lane
+// Coarse landmask (lon/lat boxes) — enough to read as continents when dotted.
+const LAND: Array<[number, number, number, number]> = [
+  // North America
+  [-168, -128, 52, 72], [-140, -95, 44, 62], [-128, -70, 30, 50],
+  [-118, -90, 23, 33], [-104, -83, 14, 24], [-85, -77, 8, 15],
+  // Greenland
+  [-52, -22, 60, 80],
+  // South America
+  [-80, -60, 0, 12], [-79, -46, -16, 0], [-74, -50, -34, -16], [-73, -65, -52, -34],
+  // Europe
+  [-10, 28, 40, 60], [2, 40, 54, 69], [-10, 2, 36, 44], [20, 44, 38, 49],
+  // Africa
+  [-17, 40, 13, 34], [-12, 42, -4, 13], [9, 42, -27, -4], [15, 33, -34, -27],
+  // Middle East / Arabia
+  [34, 60, 13, 33],
+  // Asia
+  [40, 88, 48, 70], [88, 150, 50, 71], [45, 74, 33, 48], [68, 90, 8, 33],
+  [90, 122, 21, 45], [95, 110, 8, 21], [118, 145, 31, 45],
+  // Australia
+  [113, 153, -38, -12],
 ]
 
-// Quadratic arc that bulges outward (away from globe center).
-function arc(a: Pt, b: Pt, lift: number) {
+const isLand = (lon: number, lat: number) =>
+  LAND.some(([a, b, c, d]) => lon >= a && lon <= b && lat >= c && lat <= d)
+
+// Precompute land dots (static — painted once).
+const DOTS: Array<{ x: number; y: number; o: number; r: number }> = []
+for (let lat = -82; lat <= 82; lat += 5) {
+  for (let lon = -180; lon < 180; lon += 5) {
+    if (!isLand(lon, lat)) continue
+    const p = project(lon, lat)
+    if (!p.visible) continue
+    DOTS.push({ x: p.x, y: p.y, o: 0.22 + 0.6 * p.cosc, r: 1.2 + 0.9 * p.cosc })
+  }
+}
+
+// Graticule (curved lat/long grid), front hemisphere only.
+// Visible points along any single parallel/meridian are contiguous, so a plain
+// polyline is correct.
+function polyline(pts: Array<{ x: number; y: number }>): string {
+  if (pts.length < 2) return ''
+  return 'M' + pts.map((p) => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L')
+}
+function graticule(): string[] {
+  const paths: string[] = []
+  for (const lat of [-60, -30, 0, 30, 60]) {
+    const pts = []
+    for (let lon = -180; lon <= 180; lon += 4) {
+      const p = project(lon, lat)
+      if (p.visible) pts.push(p)
+    }
+    const d = polyline(pts)
+    if (d) paths.push(d)
+  }
+  for (let lon = -150; lon <= 150; lon += 30) {
+    const pts = []
+    for (let lat = -82; lat <= 82; lat += 4) {
+      const p = project(lon, lat)
+      if (p.visible) pts.push(p)
+    }
+    const d = polyline(pts)
+    if (d) paths.push(d)
+  }
+  return paths
+}
+const GRID = graticule()
+
+// Port nodes (sit on the continents).
+const NODES = [
+  { lon: -74, lat: 40, label: 'US East' },
+  { lon: 4, lat: 51, label: 'Europe' },
+  { lon: 54, lat: 25, label: 'Middle East' },
+  { lon: 73, lat: 19, label: 'India' },
+  { lon: 105, lat: 31, label: 'Asia' },
+].map((n) => ({ ...n, ...project(n.lon, n.lat) }))
+
+const N = Object.fromEntries(NODES.map((n) => [n.label, n])) as Record<string, (typeof NODES)[number]>
+
+// Trade corridors (required connections + global lanes).
+const ROUTES: Array<[string, string, number]> = [
+  ['Europe', 'US East', 52], // Europe ↔ USA
+  ['Asia', 'Europe', 64], // Asia ↔ Europe
+  ['Middle East', 'India', 24], // Middle East ↔ India
+  ['Europe', 'Middle East', 40], // global corridor
+  ['India', 'Asia', 44], // global corridor
+]
+
+function arc(a: { x: number; y: number }, b: { x: number; y: number }, lift: number) {
   const mx = (a.x + b.x) / 2
   const my = (a.y + b.y) / 2
   const dx = mx - C
   const dy = my - C
   const len = Math.hypot(dx, dy) || 1
-  const cx = mx + (dx / len) * lift
-  const cy = my + (dy / len) * lift
-  return `M ${a.x} ${a.y} Q ${cx} ${cy} ${b.x} ${b.y}`
+  return `M ${a.x.toFixed(1)} ${a.y.toFixed(1)} Q ${(mx + (dx / len) * lift).toFixed(1)} ${(
+    my +
+    (dy / len) * lift
+  ).toFixed(1)} ${b.x.toFixed(1)} ${b.y.toFixed(1)}`
 }
 
-const MERIDIANS = Array.from({ length: 7 })
-const LATITUDES = [-130, -65, 0, 65, 130]
-const ORBIT = 'M 70 300 A 230 92 0 1 1 530 300 A 230 92 0 1 1 70 300'
+const ORBIT = 'M 74 300 A 226 90 0 1 1 526 300 A 226 90 0 1 1 74 300'
 
 export function GlobeNetwork() {
   return (
     <div className="relative h-full w-full" aria-hidden="true">
-      {/* ambient glow */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-electric/10 blur-[120px]" />
       </div>
@@ -61,91 +138,63 @@ export function GlobeNetwork() {
         className="relative h-full w-full"
         fill="none"
         role="img"
-        aria-label="Animated global logistics network connecting major trade corridors"
+        aria-label="Animated global logistics network: continents connected by glowing trade corridors"
       >
         <defs>
-          <radialGradient id="g-sphere" cx="42%" cy="38%" r="68%">
-            <stop offset="0%" stopColor="#1b2a52" />
-            <stop offset="55%" stopColor="#111a36" />
-            <stop offset="100%" stopColor="#0a1024" />
+          <radialGradient id="gb-sphere" cx="40%" cy="36%" r="70%">
+            <stop offset="0%" stopColor="#16203f" />
+            <stop offset="58%" stopColor="#0f1730" />
+            <stop offset="100%" stopColor="#090f22" />
           </radialGradient>
-          <linearGradient id="g-merid" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#4d8bff" stopOpacity="0" />
-            <stop offset="50%" stopColor="#4d8bff" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="#4d8bff" stopOpacity="0" />
-          </linearGradient>
-          <radialGradient id="g-node" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#bcd4ff" />
-            <stop offset="100%" stopColor="#2b6cdf" />
-          </radialGradient>
-          <radialGradient id="g-atmo" cx="50%" cy="50%" r="50%">
-            <stop offset="72%" stopColor="#2b6cdf" stopOpacity="0" />
-            <stop offset="92%" stopColor="#2b6cdf" stopOpacity="0.28" />
+          <radialGradient id="gb-atmo" cx="50%" cy="50%" r="50%">
+            <stop offset="70%" stopColor="#2b6cdf" stopOpacity="0" />
+            <stop offset="92%" stopColor="#2b6cdf" stopOpacity="0.3" />
             <stop offset="100%" stopColor="#2b6cdf" stopOpacity="0" />
           </radialGradient>
+          <radialGradient id="gb-node" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#cfe0ff" />
+            <stop offset="100%" stopColor="#2b6cdf" />
+          </radialGradient>
+          <clipPath id="gb-clip">
+            <circle cx={C} cy={C} r={R} />
+          </clipPath>
         </defs>
 
-        {/* atmosphere halo */}
-        <circle cx={C} cy={C} r={R + 26} fill="url(#g-atmo)" className="hf-g-breathe" />
+        {/* atmosphere */}
+        <circle cx={C} cy={C} r={R + 24} fill="url(#gb-atmo)" className="gb-breathe" />
+        {/* sphere body + limb */}
+        <circle cx={C} cy={C} r={R} fill="url(#gb-sphere)" />
+        <circle cx={C} cy={C} r={R} stroke="#4d8bff" strokeOpacity="0.4" strokeWidth="1.1" />
 
-        {/* sphere body */}
-        <circle cx={C} cy={C} r={R} fill="url(#g-sphere)" />
-        <circle cx={C} cy={C} r={R} fill="none" stroke="#4d8bff" strokeOpacity="0.45" strokeWidth="1.2" />
-
-        {/* clip wireframe + routes to the globe-ish area */}
-        <g>
-          {/* latitudes (static slices) */}
-          {LATITUDES.map((off, i) => {
-            const rx = Math.sqrt(Math.max(R * R - off * off, 0))
-            const ry = 10 + 18 * (1 - Math.abs(off) / R)
-            return (
-              <ellipse
-                key={`lat-${i}`}
-                cx={C}
-                cy={C + off}
-                rx={rx}
-                ry={ry}
-                stroke="#3f6bc4"
-                strokeOpacity="0.3"
-                strokeWidth="1"
-              />
-            )
-          })}
-
-          {/* meridians (animated → spinning globe) */}
-          {MERIDIANS.map((_, i) => (
-            <ellipse
-              key={`mer-${i}`}
-              cx={C}
-              cy={C}
-              rx={R}
-              ry={R}
-              stroke="url(#g-merid)"
-              strokeWidth="1"
-              className="hf-g-meridian"
-              style={{ animationDelay: `${(-i * 16) / MERIDIANS.length}s` } as CSSProperties}
-            />
+        <g clipPath="url(#gb-clip)">
+          {/* graticule */}
+          {GRID.map((d, i) => (
+            <path key={`g-${i}`} d={d} stroke="#3f6bc4" strokeOpacity="0.22" strokeWidth="0.8" />
+          ))}
+          {/* dotted continents */}
+          {DOTS.map((dot, i) => (
+            <circle key={`d-${i}`} cx={dot.x} cy={dot.y} r={dot.r} fill="#4d8bff" fillOpacity={dot.o} />
           ))}
         </g>
 
         {/* trade corridors + cargo particles */}
-        {ROUTES.map(([fromKey, toKey, lift], i) => {
-          const d = arc(NODES[fromKey], NODES[toKey], lift)
+        {ROUTES.map(([from, to, lift], i) => {
+          const d = arc(N[from], N[to], lift)
           return (
-            <g key={`route-${i}`}>
-              <path d={d} stroke="#2b6cdf" strokeOpacity="0.25" strokeWidth="1.4" />
+            <g key={`r-${i}`}>
+              <path d={d} stroke="#2b6cdf" strokeOpacity="0.25" strokeWidth="1.3" />
               <path
                 d={d}
                 stroke="#7fb0ff"
-                strokeWidth="1.4"
+                strokeWidth="1.3"
                 strokeOpacity="0.6"
                 strokeDasharray="3 7"
-                className="hf-g-flow"
+                className="gb-flow"
               />
               <circle
-                r="3.2"
-                fill="#bcd4ff"
-                className="hf-g-cargo"
+                r="3"
+                fill="#cfe0ff"
+                className="gb-cargo"
                 style={{ offsetPath: `path('${d}')`, animationDelay: `${i * 0.7}s` } as CSSProperties}
               />
             </g>
@@ -153,88 +202,53 @@ export function GlobeNetwork() {
         })}
 
         {/* pulsing port nodes */}
-        {Object.entries(NODES).map(([key, n], i) => (
-          <g key={key}>
+        {NODES.map((n, i) => (
+          <g key={n.label}>
             <circle
               cx={n.x}
               cy={n.y}
-              r="12"
+              r="11"
               fill="#2b6cdf"
               fillOpacity="0.18"
-              className="hf-g-pulse"
-              style={{ animationDelay: `${i * 0.4}s` } as CSSProperties}
+              className="gb-pulse"
+              style={{ animationDelay: `${i * 0.45}s` } as CSSProperties}
             />
-            <circle cx={n.x} cy={n.y} r="3.4" fill="url(#g-node)" />
+            <circle cx={n.x} cy={n.y} r="3.2" fill="url(#gb-node)" />
           </g>
         ))}
 
         {/* tilted satellite orbit */}
         <g transform={`rotate(-18 ${C} ${C})`}>
-          <path d={ORBIT} stroke="#4d8bff" strokeOpacity="0.18" strokeWidth="1" />
-          <circle r="3.4" fill="#7fb0ff" className="hf-g-orbit" style={{ offsetPath: `path('${ORBIT}')` }} />
+          <path d={ORBIT} stroke="#4d8bff" strokeOpacity="0.16" strokeWidth="1" />
+          <circle r="3.2" fill="#7fb0ff" className="gb-orbit" style={{ offsetPath: `path('${ORBIT}')` }} />
         </g>
       </svg>
 
       <style>{`
-        .hf-g-meridian {
-          transform-box: fill-box;
-          transform-origin: center;
-          animation: hfGMerid 16s linear infinite;
-        }
-        @keyframes hfGMerid {
-          0%   { transform: scaleX(1); }
-          25%  { transform: scaleX(0.04); }
-          50%  { transform: scaleX(-1); }
-          75%  { transform: scaleX(0.04); }
-          100% { transform: scaleX(1); }
-        }
-        .hf-g-flow {
-          animation: hfGFlow 1.1s linear infinite;
-        }
-        @keyframes hfGFlow {
-          to { stroke-dashoffset: -10; }
-        }
-        .hf-g-cargo {
-          offset-rotate: 0deg;
-          animation: hfGCargo 4.2s linear infinite;
-        }
-        @keyframes hfGCargo {
-          0%   { offset-distance: 0%; opacity: 0; }
-          12%  { opacity: 1; }
-          88%  { opacity: 1; }
+        .gb-flow { animation: gbFlow 1.1s linear infinite; }
+        @keyframes gbFlow { to { stroke-dashoffset: -10; } }
+        .gb-cargo { offset-rotate: 0deg; animation: gbCargo 4.2s linear infinite; }
+        @keyframes gbCargo {
+          0% { offset-distance: 0%; opacity: 0; }
+          12% { opacity: 1; }
+          88% { opacity: 1; }
           100% { offset-distance: 100%; opacity: 0; }
         }
-        .hf-g-pulse {
-          transform-box: fill-box;
-          transform-origin: center;
-          animation: hfGPulse 2.8s ease-out infinite;
+        .gb-pulse { transform-box: fill-box; transform-origin: center; animation: gbPulse 2.8s ease-out infinite; }
+        @keyframes gbPulse {
+          0% { transform: scale(0.5); opacity: 0.5; }
+          70% { transform: scale(1.7); opacity: 0; }
+          100% { transform: scale(1.7); opacity: 0; }
         }
-        @keyframes hfGPulse {
-          0%   { transform: scale(0.5); opacity: 0.5; }
-          70%  { transform: scale(1.6); opacity: 0; }
-          100% { transform: scale(1.6); opacity: 0; }
-        }
-        .hf-g-orbit {
-          offset-rotate: 0deg;
-          animation: hfGOrbit 14s linear infinite;
-        }
-        @keyframes hfGOrbit {
-          to { offset-distance: 100%; }
-        }
-        .hf-g-breathe {
-          transform-box: fill-box;
-          transform-origin: center;
-          animation: hfGBreathe 6s ease-in-out infinite;
-        }
-        @keyframes hfGBreathe {
+        .gb-orbit { offset-rotate: 0deg; animation: gbOrbit 15s linear infinite; }
+        @keyframes gbOrbit { to { offset-distance: 100%; } }
+        .gb-breathe { transform-box: fill-box; transform-origin: center; animation: gbBreathe 6s ease-in-out infinite; }
+        @keyframes gbBreathe {
           0%, 100% { opacity: 0.7; transform: scale(1); }
-          50%      { opacity: 1; transform: scale(1.02); }
+          50% { opacity: 1; transform: scale(1.02); }
         }
         @media (prefers-reduced-motion: reduce) {
-          .hf-g-meridian, .hf-g-flow, .hf-g-cargo, .hf-g-pulse, .hf-g-orbit, .hf-g-breathe {
-            animation: none !important;
-          }
-          .hf-g-meridian:nth-of-type(odd) { transform: scaleX(0.5); }
+          .gb-flow, .gb-cargo, .gb-pulse, .gb-orbit, .gb-breathe { animation: none !important; }
         }
       `}</style>
     </div>

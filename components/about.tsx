@@ -23,8 +23,8 @@ export function About() {
           <Reveal variant="left" className="relative order-2 lg:order-1">
             <div className="relative aspect-4/3 overflow-hidden rounded-2xl border border-sec-border shadow-xl shadow-navy/10">
               <Image
-                src="/images/about-logistics.png"
-                alt="Haulflair logistics operations"
+                src="/images/services-freight.png"
+                alt="Haulflair air and ocean freight operations"
                 fill
                 loading="lazy"
                 sizes="(max-width: 1024px) 100vw, 50vw"

@@ -118,9 +118,32 @@ export function OpeningAnimation() {
 
       {/* Logo cluster: ring + floating logo + shine */}
       <div className="hf-logo relative flex items-center justify-center">
-        {/* Glowing rotating ring / motion trail */}
-        <span className="hf-ring pointer-events-none absolute h-[230px] w-[230px] rounded-full sm:h-[300px] sm:w-[300px]" />
-        <span className="hf-ring-soft pointer-events-none absolute h-[300px] w-[300px] rounded-full sm:h-[380px] sm:w-[380px]" />
+        {/* Ring illuminated from top-left → bottom-right */}
+        <div className="hf-ringwrap pointer-events-none absolute h-[260px] w-[260px] sm:h-[340px] sm:w-[340px]">
+          <svg viewBox="0 0 300 300" className="h-full w-full" fill="none">
+            <defs>
+              <linearGradient id="hf-ring-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#9cc2ff" />
+                <stop offset="55%" stopColor="#2b6cdf" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#2b6cdf" stopOpacity="0.06" />
+              </linearGradient>
+            </defs>
+            {/* faint base ring */}
+            <circle cx="150" cy="150" r="120" stroke="#4d8bff" strokeOpacity="0.14" strokeWidth="1.5" />
+            {/* travelling illumination arc, starting top-left */}
+            <circle
+              cx="150"
+              cy="150"
+              r="120"
+              stroke="url(#hf-ring-grad)"
+              strokeWidth="2.4"
+              strokeLinecap="round"
+              pathLength={100}
+              className="hf-ringsweep"
+              transform="rotate(-135 150 150)"
+            />
+          </svg>
+        </div>
 
         {/* Logo with shine pass */}
         <div className="hf-float relative overflow-hidden px-6 py-4">
@@ -207,28 +230,23 @@ export function OpeningAnimation() {
           to { transform: translateX(100%); }
         }
 
-        /* ---- glowing ring ---- */
-        .hf-ring {
-          border: 1px solid rgba(77, 139, 255, 0.35);
-          box-shadow: 0 0 40px rgba(43, 108, 223, 0.25),
-            inset 0 0 30px rgba(43, 108, 223, 0.15);
+        /* ---- glowing ring: illuminated top-left → bottom-right ---- */
+        .hf-ringwrap {
           opacity: 0;
-          animation: hfRingIn 0.9s ease 0.35s both, hfSpin 9s linear 0.5s infinite;
+          animation: hfRingIn 0.9s ease 0.35s both;
         }
-        .hf-ring-soft {
-          border: 1px dashed rgba(77, 139, 255, 0.18);
-          opacity: 0;
-          animation: hfRingIn 1s ease 0.5s both, hfSpinRev 14s linear 0.5s infinite;
+        .hf-ringsweep {
+          stroke-dasharray: 42 58;
+          stroke-dashoffset: 0;
+          filter: drop-shadow(0 0 6px rgba(77, 139, 255, 0.55));
+          animation: hfRingSweep 2.3s cubic-bezier(0.45, 0, 0.2, 1) 0.5s infinite;
+        }
+        @keyframes hfRingSweep {
+          to { stroke-dashoffset: -100; }
         }
         @keyframes hfRingIn {
           from { opacity: 0; transform: scale(0.85); }
           to   { opacity: 1; transform: scale(1); }
-        }
-        @keyframes hfSpin {
-          to { transform: rotate(360deg); }
-        }
-        @keyframes hfSpinRev {
-          to { transform: rotate(-360deg); }
         }
 
         /* ---- particles ---- */
@@ -261,10 +279,10 @@ export function OpeningAnimation() {
         /* ---- reduced motion: show logo, skip motion ---- */
         @media (prefers-reduced-motion: reduce) {
           .hf-logo { animation: hfLogoIn 0.4s ease both; }
-          .hf-float, .hf-shine, .hf-sweep, .hf-ring, .hf-ring-soft, .hf-particle {
+          .hf-float, .hf-shine, .hf-sweep, .hf-ringsweep, .hf-particle {
             animation: none !important;
           }
-          .hf-ring, .hf-ring-soft { opacity: 1; }
+          .hf-ringwrap { opacity: 1; }
           .hf-progress { animation: hfProgress 2.2s linear forwards; }
         }
       `}</style>
