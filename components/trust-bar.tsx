@@ -5,10 +5,10 @@ import { CountUp } from '@/components/count-up'
 type Stat = { value?: number; suffix?: string; text?: string; label: string }
 
 const stats: Stat[] = [
-  { value: 9, suffix: '+', label: 'Logistics Solutions' },
-  { value: 48, suffix: 'hrs', label: 'Quote Turnaround' },
-  { text: 'Multi-Region', label: 'Global Coverage' },
-  { text: 'FCL', label: 'Container Specialists' },
+  { text: 'Haulflair Intelligence™', label: 'Proprietary Platform' },
+  { value: 24, suffix: 'hrs', label: 'Quote Turnaround' },
+  { text: 'Smart Drayage Engine', label: 'Port to Door' },
+  { text: 'Intelligent Warehouse Operations', label: 'B2B & B2C' },
   { text: 'Zero', label: 'Hidden Charges' },
 ]
 
@@ -30,7 +30,13 @@ export function TrustBar() {
               key={stat.label}
               className="group flex flex-col items-center justify-center text-center md:px-4 first:col-span-2 first:md:col-span-1"
             >
-              <span className="font-display text-3xl font-bold tracking-tight text-electric-bright md:text-[2.75rem] md:leading-none">
+              <span
+                className={`font-display font-bold tracking-tight text-electric-bright ${
+                  stat.value != null
+                    ? 'text-3xl md:text-[2.75rem] md:leading-none'
+                    : 'text-balance text-xl leading-tight md:text-2xl'
+                }`}
+              >
                 {stat.value != null ? (
                   <CountUp value={stat.value} suffix={stat.suffix} />
                 ) : (

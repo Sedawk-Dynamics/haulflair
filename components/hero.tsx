@@ -1,13 +1,15 @@
 'use client'
 
 import { ArrowRight, ChevronDown } from 'lucide-react'
-import { GlobeNetwork } from '@/components/globe-network'
+import { Typewriter } from '@/components/typewriter'
+
+const globePhrases = ['Smart Drayage Engine', 'Adaptive Fulfillment', 'AI-Optimized Container Flow']
 
 const trustPills = [
-  'US Drayage Specialists',
-  'Freight Forwarder Partners',
-  'End-to-End Coordination',
-  'Multi-Region Coverage',
+  'AI-Optimized Container Flow',
+  'Predictive Drayage Planning',
+  'Warehouse Intelligence Platform',
+  'Scalable Fulfillment Infrastructure',
 ]
 
 export function Hero() {
@@ -31,14 +33,14 @@ export function Hero() {
 
       <div className="relative z-20 mx-auto flex w-full max-w-7xl flex-1 flex-col items-center gap-12 px-6 md:px-10 lg:flex-row lg:gap-10 lg:px-8">
         {/* LEFT — copy */}
-        <div className="flex w-full flex-col justify-center lg:w-[55%]">
+        <div className="flex w-full flex-col justify-center lg:w-[46%]">
           {/* Badge */}
           <div
             className="mb-7 inline-flex items-center gap-2 self-start rounded-full border border-electric/40 bg-electric/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-electric-bright"
             style={{ animation: 'heroIn 0.6s ease-out both' }}
           >
             <span className="h-2 w-2 animate-pulse rounded-full bg-electric-bright" />
-            Freight Forwarding &amp; Global Logistics Platform
+            Next-Generation Drayage &amp; Fulfillment Platform
           </div>
 
           {/* Headline */}
@@ -57,10 +59,11 @@ export function Hero() {
             className="mb-9 max-w-xl text-[1.0625rem] leading-[1.7] text-light-grey/85"
             style={{ animation: 'heroIn 0.8s ease-out 0.12s both' }}
           >
-            Haulflair is a new-generation freight and logistics company built for the way global
-            trade actually works today. We combine hands-on operational expertise with technology to
-            deliver end-to-end freight solutions — from US drayage and inland delivery to full-service
-            forwarding for importers and exporters worldwide.
+            Built for modern logistics, Haulflair is the US drayage and warehousing partner freight
+            forwarders and importers can count on. From port pickup to final delivery, we blend
+            operational precision with technology-driven execution to deliver reliable drayage,
+            flexible B2B and B2C warehousing, and complete shipment visibility — every container,
+            every step. We don&apos;t just move cargo. We move it right.
           </p>
 
           {/* CTAs */}
@@ -100,27 +103,29 @@ export function Hero() {
           </div>
         </div>
 
-        {/* RIGHT — animated trade-lane map (above the fold, not lazy) */}
+        {/* RIGHT — animated globe (above the fold, not lazy) */}
         <div
-          className="relative hidden w-[45%] self-stretch lg:block"
+          className="relative hidden min-h-[560px] w-[54%] self-stretch lg:block xl:min-h-[640px]"
           style={{ animation: 'heroIn 1s ease-out 0.2s both' }}
         >
           <div className="absolute inset-0 flex items-center justify-center">
-            <GlobeNetwork />
+            <video
+              src="/globe.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              aria-hidden="true"
+              className="h-full w-full object-contain"
+            />
           </div>
 
-          {/* Floating metric cards */}
-          <div className="absolute left-2 top-[16%] z-30 rounded-2xl border border-electric/25 bg-navy/70 px-5 py-4 shadow-xl backdrop-blur-md">
-            <p className="text-2xl font-bold text-electric-bright">EU → US</p>
-            <p className="mt-1 text-[11px] uppercase tracking-widest text-light-grey/70">
-              Core Trade Corridor
-            </p>
-          </div>
-          <div className="absolute bottom-[16%] right-2 z-30 rounded-2xl border border-electric/25 bg-navy/70 px-5 py-4 shadow-xl backdrop-blur-md">
-            <p className="text-2xl font-bold text-white">FCL</p>
-            <p className="mt-1 text-[11px] uppercase tracking-widest text-light-grey/70">
-              Container Drayage
-            </p>
+          {/* Typewriter capability label over the globe */}
+          <div className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-electric/25 bg-navy/70 px-6 py-4 shadow-xl backdrop-blur-md">
+            <Typewriter
+              phrases={globePhrases}
+              className="font-display text-lg font-bold text-electric-bright xl:text-xl"
+            />
           </div>
         </div>
       </div>

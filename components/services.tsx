@@ -2,15 +2,12 @@
 
 import type { MouseEvent } from 'react'
 import {
-  Globe,
-  Ship,
   Truck,
-  ClipboardCheck,
   Warehouse,
+  CalendarClock,
   RadioTower,
-  MapPin,
-  Headphones,
   FileText,
+  PackageSearch,
   type LucideIcon,
 } from 'lucide-react'
 import { Reveal } from '@/components/reveal'
@@ -19,66 +16,52 @@ type Service = {
   icon: LucideIcon
   title: string
   description: string
+  badge?: string
 }
 
-// Featured / primary services — rendered in the top 2-column row.
-const featured: Service = {
-  icon: Truck,
-  title: 'US Drayage Services',
-  description:
-    'Our core speciality. We handle container drayage from major US ports — Newark/Elizabeth, Savannah, Norfolk, Charleston — to Amazon Fulfillment Centers, Walmart Distribution Centers, B2B warehouses, and 3PL facilities across the United States. Our European operations expertise spans major origin markets including Poland, Germany, France, Netherlands, and beyond — making us a natural end-to-end partner for European freight forwarders and importers moving FCL cargo into the US.',
-}
-
-const primaryPair: Service = {
-  icon: Globe,
-  title: 'Freight Forwarding',
-  description:
-    'Full-service air, ocean, and land freight forwarding for importers and exporters moving cargo across international markets. We manage carrier relationships, documentation, and end-to-end coordination so your cargo moves without surprises.',
-}
-
-// Remaining services — rendered in the 3-column grid below.
-const services: Service[] = [
+// Two featured pillar cards — equal visual weight, rendered side by side.
+const pillars: Service[] = [
   {
-    icon: Ship,
-    title: 'Port-to-Port Shipping',
+    icon: Truck,
+    badge: 'Core Service',
+    title: 'US Drayage Services',
     description:
-      'Efficient port-to-port logistics for businesses requiring reliable cargo transportation between global ports. We handle carrier coordination, booking management, and shipment visibility across major trade lanes worldwide.',
-  },
-  {
-    icon: ClipboardCheck,
-    title: 'Customs Clearance',
-    description:
-      'Fast, compliant customs clearance coordination for US-bound and international cargo. We manage documentation, classification, and customs filing coordination to ensure smooth border crossing and minimal port dwell time.',
+      'Our core specialty. Smart port drayage from major US ports — Newark/Elizabeth, Savannah, Norfolk, Charleston — to Amazon Fulfillment Centers, Walmart Distribution Centers, B2B warehouses, and 3PL facilities across the United States. Real-time container intelligence, dynamic appointment management, and predictive demurrage prevention, engineered to keep every container moving and every deadline met.',
   },
   {
     icon: Warehouse,
-    title: 'Warehousing & Storage',
+    badge: 'Core Service',
+    title: 'Warehousing & Fulfillment',
     description:
-      'Flexible warehousing and cargo storage solutions across key US logistics hubs. Whether you need short-term overflow storage, cross-docking, B2C order fulfillment, or inventory management support, we connect you to the right facility for your cargo type and timeline — complete with a personalised Warehouse Management System (WMS) setup to keep your inventory visible and your operations moving.',
+      'A digital control tower for your inventory. Flexible B2B and B2C warehousing across key US logistics hubs — short-term storage, cross-docking, and full order fulfillment, backed by live visibility, AI-powered slotting, and adaptive fulfillment. Built to turn warehousing from a black box into a system you can see straight through.',
+  },
+]
+
+// Supporting capability cards — rendered in the grid below the pillars.
+const services: Service[] = [
+  {
+    icon: CalendarClock,
+    title: 'Dynamic Appointment Intelligence',
+    description:
+      'Live scheduling, automated coordination, and proof-of-delivery tracking built for the deadlines that actually matter — Amazon FC windows, Walmart DC compliance, and everything in between.',
   },
   {
     icon: RadioTower,
-    title: 'Shipment Tracking',
+    title: 'Real-Time Shipment Intelligence',
     description:
-      'Complete shipment visibility from port pickup to final delivery. We provide milestone-by-milestone updates — customs release, container availability, dispatch, and POD — so you and your customers always know where the cargo stands.',
-  },
-  {
-    icon: MapPin,
-    title: 'Last-Mile Delivery',
-    description:
-      'Reliable final delivery coordination from warehouse or DC to end consignee. We manage carrier dispatch, delivery appointments, and proof of delivery documentation to ensure cargo reaches its destination on time and intact.',
-  },
-  {
-    icon: Headphones,
-    title: 'Logistics Consultation',
-    description:
-      "Customised logistics planning and supply chain advisory for businesses looking to optimise their freight operations. Whether you're evaluating trade lanes, restructuring your US import flow, or building a new distribution model, we provide operational guidance grounded in real freight experience.",
+      'Live milestone-by-milestone visibility from port pickup to final delivery. Customs release, container availability, dispatch, and POD — tracked and updated as it happens, not after the fact.',
   },
   {
     icon: FileText,
-    title: 'Documentation & Compliance',
+    title: 'Digital Container Lifecycle',
     description:
-      'Accurate preparation and management of all shipping documentation — commercial invoices, packing lists, bills of lading, ISF filings, and customs declarations. We ensure compliance with US CBP and international trade regulations across every shipment.',
+      'Every milestone, every document, every charge, tracked in one unified system. Bills of lading, ISF filings, and compliance records — searchable, transparent, and always current.',
+  },
+  {
+    icon: PackageSearch,
+    title: 'Smart Inventory Intelligence',
+    description:
+      "Predictive inventory visibility and digital SKU tracking across every warehouse location. Know what's in stock, what's moving, and what needs attention — before it becomes a problem.",
   },
 ]
 
@@ -100,29 +83,29 @@ export function Services() {
           <span className="section-label">Our Services &amp; Solutions</span>
           <div className="mt-4 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <h2 className="font-display max-w-xl text-4xl font-bold tracking-tight text-sec-heading text-balance md:text-[2.625rem]">
-              End-to-End Logistics Solutions
+              Drayage and Warehousing, Engineered Smarter
             </h2>
             <p className="max-w-md text-[1.0625rem] leading-[1.7] text-sec-body text-pretty">
-              From first mile to final delivery, we coordinate every stage of your supply chain with
-              precision, transparency, and operational expertise.
+              From the moment your container clears the port to the moment your inventory reaches its
+              destination, we handle it with precision, intelligence, and full visibility — nothing
+              more, nothing less.
             </p>
           </div>
         </Reveal>
 
-        {/* Featured row — US Drayage (primary) + Freight Forwarding */}
+        {/* Two featured pillars — equal weight, side by side */}
         <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <Reveal>
-            <FeaturedCard service={featured} />
-          </Reveal>
-          <Reveal delay={80}>
-            <ServiceCard service={primaryPair} />
-          </Reveal>
+          {pillars.map((pillar, i) => (
+            <Reveal key={pillar.title} delay={i * 80}>
+              <FeaturedCard service={pillar} />
+            </Reveal>
+          ))}
         </div>
 
-        {/* 3-column grid for the remaining services */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Supporting capability grid */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {services.map((service, i) => (
-            <Reveal key={service.title} delay={(i % 3) * 80}>
+            <Reveal key={service.title} delay={(i % 4) * 80}>
               <ServiceCard service={service} />
             </Reveal>
           ))}
@@ -202,10 +185,12 @@ function FeaturedCard({ service }: { service: Service }) {
     >
       <span className="hf-spot hf-spot--bright pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       <span className="absolute inset-x-0 top-0 h-[3px] bg-electric" />
-      {/* Core Service badge */}
-      <span className="absolute right-5 top-5 rounded-full border border-electric/40 bg-electric/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-electric-bright">
-        Core Service
-      </span>
+      {/* badge */}
+      {service.badge && (
+        <span className="absolute right-5 top-5 rounded-full border border-electric/40 bg-electric/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-electric-bright">
+          {service.badge}
+        </span>
+      )}
       <div className="relative mb-5 flex h-12 w-12 items-center justify-center rounded-lg border border-electric/40 bg-electric/20 text-electric-bright">
         <Icon size={22} />
       </div>

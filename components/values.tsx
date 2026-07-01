@@ -1,6 +1,6 @@
 'use client'
 
-import { Eye, ShieldCheck, Zap, Heart, Lightbulb, type LucideIcon } from 'lucide-react'
+import { Eye, ShieldCheck, Zap, Heart, Crosshair, type LucideIcon } from 'lucide-react'
 import { Reveal } from '@/components/reveal'
 
 type Value = { icon: LucideIcon; title: string; description: string }
@@ -10,31 +10,31 @@ const values: Value[] = [
     icon: Eye,
     title: 'Visibility',
     description:
-      "We believe every customer deserves complete clarity — on pricing, shipment status, and what's happening with their cargo at every stage. Full visibility is not a feature, it's a baseline.",
+      "Most logistics companies treat visibility as a dashboard feature. We treat it as a promise. You will never wonder where your cargo is, what it's costing you, or what happens next — because guessing isn't a service we offer.",
   },
   {
     icon: ShieldCheck,
     title: 'Accountability',
     description:
-      'We take ownership of every shipment we handle. When things go wrong, we communicate immediately and work on solutions — not excuses.',
+      'When something goes wrong — and in freight, something eventually does — we don’t disappear behind a support ticket. We call you first, we own it, and we fix it. No excuses dressed up as explanations.',
   },
   {
     icon: Zap,
     title: 'Reliability',
     description:
-      'Operational consistency is not a differentiator, it’s a baseline commitment. We build processes and partnerships that deliver the same quality on the hundredth shipment as the first.',
+      'Anyone can deliver once. We’re building the kind of operation that delivers the same way on shipment one thousand as it did on shipment one — because consistency isn’t a milestone, it’s the entire business model.',
   },
   {
     icon: Heart,
     title: 'Customer Commitment',
     description:
-      'We work with a limited number of partners and customers by design — so every relationship gets the attention it deserves, not a ticket number.',
+      'We will never be the company managing a thousand accounts and remembering none of them. We chose depth over scale on purpose — so every partner gets attention, not a ticket number in a queue.',
   },
   {
-    icon: Lightbulb,
-    title: 'Innovation',
+    icon: Crosshair,
+    title: 'Precision',
     description:
-      'We invest in technology and operational systems that give our customers visibility and efficiency that legacy freight companies cannot match.',
+      'Drayage isn’t won or lost in the big decisions. It’s won in the details everyone else treats as fine print — appointment windows, LFD deadlines, accessorial charges nobody warned you about. We treat precision as the job, not the afterthought.',
   },
 ]
 

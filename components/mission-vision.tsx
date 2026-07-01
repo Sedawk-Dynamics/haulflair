@@ -24,10 +24,10 @@ export function MissionVision() {
               </div>
               <h3 className="font-display mb-4 text-2xl font-bold text-sec-heading">Our Mission</h3>
               <p className="text-[1.0625rem] leading-[1.7] text-sec-body">
-                To simplify global freight by combining operational expertise, honest communication,
-                and technology-enabled coordination. We exist to make moving cargo across borders as
-                effortless and predictable as ordering online — for freight forwarders and importers
-                and exporters alike.
+                To make US drayage and warehousing the part of freight that finally works the way it
+                should — fast, transparent, and predictable. We exist to be the execution partner
+                forwarders and importers stop worrying about, because we handle the details before
+                they become problems.
               </p>
             </div>
           </Reveal>
@@ -41,11 +41,11 @@ export function MissionVision() {
               </div>
               <h3 className="font-display mb-4 text-2xl font-bold text-sec-heading">Our Vision</h3>
               <p className="text-[1.0625rem] leading-[1.7] text-sec-body">
-                To build Haulflair into a globally trusted freight forwarding and logistics company
-                known for operational reliability, transparent pricing, and genuine partnership. We
-                are building toward a future where Haulflair manages end-to-end supply chains for
-                importers and exporters across all major trade corridors — powered by technology and
-                grounded in real operational experience.
+                To become the most trusted name in US drayage and warehousing — the partner every
+                forwarder and importer thinks of first when cargo needs to move through American ports
+                and into American warehouses. We&apos;re building toward a future defined by depth, not
+                breadth: better technology, deeper port coverage, and a level of reliability that
+                makes switching providers unthinkable.
               </p>
             </div>
           </Reveal>

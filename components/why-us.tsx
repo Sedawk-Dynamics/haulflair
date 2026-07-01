@@ -31,16 +31,16 @@ const points: Point[] = [
   },
   {
     icon: Handshake,
-    title: 'Built for Freight Forwarders',
+    title: 'One Lane. Mastered.',
     description:
-      "We understand how forwarders work. We don't require minimum volumes, we don't compete for your customers, and we operate as a seamless extension of your own service. Your customer sees reliable delivery — you get a dependable US partner.",
+      'Every freight company claims to do everything — ocean, air, customs, warehousing, trucking. We picked two: US drayage and warehousing. No distractions, no subcontracted guesswork, no scope creep. Just the partner forwarders call when the work actually has to get done.',
   },
   {
     icon: Cpu,
-    title: 'AI-Powered Operations',
+    title: 'The Brain Behind the Boxes',
     ai: true,
     description:
-      'Our operations run on custom-built systems with AI-assisted shipment monitoring that tracks every milestone, flags exceptions before they escalate, and drafts documentation automatically. From anomaly detection on active shipments to intelligent outreach and partner management, we use technology to run leaner and respond faster than traditional freight companies — giving you visibility and accountability backed by real infrastructure, not manual spreadsheets.',
+      "Spreadsheets miss things. Group chats lose context. Hope isn't a strategy. So we built systems that watch every shipment in real time, catch problems before they escalate, and flag risk while you can still do something about it. This isn't tech for tech's sake — it's the difference between finding out about a problem and never having one in the first place.",
   },
 ]
 
@@ -57,7 +57,7 @@ export function WhyUs() {
         <Reveal className="mx-auto mb-16 max-w-2xl text-center">
           <span className="section-label is-centered">Why Choose Haulflair</span>
           <h2 className="font-display mb-4 mt-4 text-4xl font-bold tracking-tight text-sec-heading text-balance md:text-[2.625rem]">
-            Logistics Built on Partnership
+            Built to Be the Partner You Don&apos;t Have to Worry About
           </h2>
         </Reveal>
 

@@ -3,8 +3,8 @@
 import { Reveal } from '@/components/reveal'
 
 // Themed to Haulflair (freight/logistics). Swap these two arrays for any words.
-const TOP_WORDS = ['FREIGHT', 'DRAYAGE', 'CUSTOMS', 'DELIVERED', 'FORWARDING', 'LOGISTICS']
-const BOTTOM_WORDS = ['move', 'clear', 'track', 'deliver', 'coordinate', 'forward']
+const TOP_WORDS = ['PORT', 'DRAYAGE', 'WAREHOUSE', 'DISPATCHED', 'DELIVERED', 'FULFILLED', 'TRACKED']
+const BOTTOM_WORDS = ['track', 'deliver', 'store', 'dispatch', 'move', 'fulfill', 'secure']
 
 /**
  * Cinematic infinite marquee band.

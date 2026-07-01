@@ -23,8 +23,8 @@ export function About() {
           <Reveal variant="left" className="relative order-2 lg:order-1">
             <div className="relative aspect-4/3 overflow-hidden rounded-2xl border border-sec-border shadow-xl shadow-navy/10">
               <Image
-                src="/images/services-freight.png"
-                alt="Haulflair air and ocean freight operations"
+                src="/deleviry.png"
+                alt="Haulflair drayage truck hauling a container at a US port terminal"
                 fill
                 loading="lazy"
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -35,9 +35,9 @@ export function About() {
 
             {/* Floating stat card */}
             <div className="absolute -bottom-6 right-4 rounded-xl border border-electric/30 bg-sec-card p-5 shadow-xl shadow-navy/10 md:right-8">
-              <p className="font-display text-3xl font-bold text-electric">9+</p>
+              <p className="font-display text-3xl font-bold text-electric">1</p>
               <p className="mt-0.5 text-xs font-medium uppercase tracking-widest text-mid-grey">
-                Logistics Solutions
+                Partner, Port to Door
               </p>
             </div>
 
@@ -50,29 +50,36 @@ export function About() {
             <span className="section-label">About Haulflair</span>
 
             <h2 className="font-display mb-6 mt-4 text-4xl font-bold tracking-tight text-sec-heading text-balance md:text-[2.625rem]">
-              Redefining the Freight Forwarding Experience
+              The Last Mile, Mastered
             </h2>
 
             {/* Emphasised lead line — strongest line on the page */}
             <p className="font-display mb-6 text-2xl font-semibold leading-snug text-sec-heading md:text-[1.75rem]">
-              Global trade is complex.{' '}
-              <span className="text-electric">Moving cargo shouldn&apos;t be.</span>
+              Built by People Who&apos;ve Sat on the{' '}
+              <span className="text-electric">Other Side of the Phone.</span>
             </p>
 
             <div className="space-y-5 text-[1.0625rem] leading-[1.7] text-sec-body">
               <p>
-                Haulflair is a new-generation freight and logistics company built for the way global
-                trade actually works today. We combine hands-on operational expertise with technology
-                to deliver end-to-end freight solutions — from US drayage and inland delivery to
-                full-service forwarding for importers and exporters worldwide.
+                Before Haulflair, we were the ones chasing drayage partners for status updates,
+                absorbing detention charges nobody warned us about, and explaining to customers why a
+                container that should&apos;ve moved in two days took five. We built Haulflair to be the
+                partner we wish we&apos;d had. Logistics fails in the details, not the headlines.
               </p>
               <p>
-                We are on a mission to make cross-border logistics as effortless and predictable as
-                ordering online. We work with freight forwarders, NVOCCs, and importers and exporters
-                who need a partner that moves fast, communicates clearly, and treats every shipment
-                like it matters. Whether you need a reliable US drayage partner for your FCL cargo,
-                customs coordination, or end-to-end supply chain support, Haulflair brings the
-                operational depth and responsiveness to get it done.
+                Haulflair is a US drayage and warehousing specialist — not two services stitched
+                together, but one operation that stays with your cargo from the moment it clears the
+                port to the moment it lands on a shelf or a customer&apos;s doorstep. On the drayage
+                side: container pickup, appointment scheduling, on-time delivery into Amazon FCs,
+                Walmart DCs, and B2B warehouses. On the warehousing side: short-term storage,
+                cross-docking, and full B2B and B2C fulfillment — all run on the same systems, by the
+                same team, with the same standard of accountability.
+              </p>
+              <p>
+                What that means in practice is simple. You&apos;re not managing one vendor for the
+                truck and another for the warehouse, hoping they actually talk to each other. You get
+                one partner, one point of contact, and zero finger-pointing when something needs
+                fixing.
               </p>
             </div>
 
