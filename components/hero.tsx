@@ -85,47 +85,50 @@ export function Hero() {
               Explore Services
             </a>
           </div>
+        </div>
 
-          {/* Trust pills */}
+        {/* RIGHT — animated globe (above the fold, not lazy) */}
+        <div
+          className="hidden w-[54%] flex-col self-start lg:-mt-16 lg:flex xl:-mt-20"
+          style={{ animation: 'heroIn 1s ease-out 0.2s both' }}
+        >
+          {/* Globe video with typewriter label */}
+          <div className="relative min-h-[560px] flex-1 xl:min-h-[640px]">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <video
+                src="/globe.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                aria-hidden="true"
+                className="h-full w-full object-contain"
+              />
+            </div>
+
+            {/* Typewriter capability label over the globe */}
+            <div className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-electric/25 bg-navy/70 px-6 py-4 shadow-xl backdrop-blur-md">
+              <Typewriter
+                phrases={globePhrases}
+                className="font-display text-lg font-bold text-electric-bright xl:text-xl"
+              />
+            </div>
+          </div>
+
+          {/* Trust pills — below the globe */}
           <div
-            className="flex flex-wrap items-center gap-3"
-            style={{ animation: 'heroIn 1s ease-out 0.3s both' }}
+            className="grid grid-cols-2 gap-3"
+            style={{ animation: 'heroIn 1s ease-out 0.35s both' }}
           >
             {trustPills.map((item) => (
               <span
                 key={item}
                 className="inline-flex items-center gap-2 rounded-full border border-electric/30 bg-electric/7 px-4 py-2 text-xs font-medium text-light-grey"
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-electric-bright" />
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-electric-bright" />
                 {item}
               </span>
             ))}
-          </div>
-        </div>
-
-        {/* RIGHT — animated globe (above the fold, not lazy) */}
-        <div
-          className="relative hidden min-h-[560px] w-[54%] self-stretch lg:block xl:min-h-[640px]"
-          style={{ animation: 'heroIn 1s ease-out 0.2s both' }}
-        >
-          <div className="absolute inset-0 flex items-center justify-center">
-            <video
-              src="/globe.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              aria-hidden="true"
-              className="h-full w-full object-contain"
-            />
-          </div>
-
-          {/* Typewriter capability label over the globe */}
-          <div className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-electric/25 bg-navy/70 px-6 py-4 shadow-xl backdrop-blur-md">
-            <Typewriter
-              phrases={globePhrases}
-              className="font-display text-lg font-bold text-electric-bright xl:text-xl"
-            />
           </div>
         </div>
       </div>
