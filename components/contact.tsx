@@ -4,8 +4,13 @@ import { useState } from 'react'
 import { Mail, Phone, Send, CheckCircle, type LucideIcon } from 'lucide-react'
 import { Reveal } from '@/components/reveal'
 
+// Web3Forms access key — public by design; it maps submissions to the
+// destination inbox configured on web3forms.com.
+const WEB3FORMS_ACCESS_KEY = '6997c147-a467-4076-86ee-dccec9588ca5'
+
 export function Contact() {
   const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'error'>('idle')
   const [form, setForm] = useState({ name: '', company: '', email: '', phone: '', message: '' })
 
   const handleChange = (
@@ -14,9 +19,33 @@ export function Contact() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    setStatus('submitting')
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: 'New inquiry from the Haulflair website',
+          from_name: 'Haulflair Website',
+          name: form.name,
+          company: form.company,
+          email: form.email,
+          phone: form.phone,
+          message: form.message,
+        }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setSubmitted(true)
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
@@ -128,14 +157,26 @@ export function Contact() {
                     onChange={handleChange}
                     placeholder="Tell us about your shipment requirements, origin, destination, cargo type..."
                     rows={5}
+                    required
                     className="w-full resize-none rounded-lg border border-sec-border bg-sec-card px-4 py-3 text-sm text-sec-heading placeholder:text-mid-grey transition focus:border-electric focus:outline-none focus:ring-1 focus:ring-electric/40"
                   />
                 </div>
+                {status === 'error' && (
+                  <p className="text-sm text-red-500">
+                    Something went wrong while sending your message. Please try again, or email us
+                    directly at{' '}
+                    <a href="mailto:sales@haulflair.com" className="font-semibold underline">
+                      sales@haulflair.com
+                    </a>
+                    .
+                  </p>
+                )}
                 <button
                   type="submit"
-                  className="group flex w-full items-center justify-center gap-2 rounded-lg bg-electric px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-electric/25 transition-all duration-200 hover:bg-electric-bright hover:glow-electric"
+                  disabled={status === 'submitting'}
+                  className="group flex w-full items-center justify-center gap-2 rounded-lg bg-electric px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-electric/25 transition-all duration-200 hover:bg-electric-bright hover:glow-electric disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  Send Inquiry
+                  {status === 'submitting' ? 'Sending…' : 'Send Inquiry'}
                   <Send size={14} className="transition-transform group-hover:translate-x-0.5" />
                 </button>
               </form>
