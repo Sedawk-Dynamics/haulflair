@@ -15,8 +15,8 @@ const trustPills = [
 export function Hero() {
   return (
     <section className="relative flex min-h-screen flex-col overflow-hidden pt-28 lg:pt-32">
-      {/* Deep navy → darker gradient background */}
-      <div className="absolute inset-0 -z-10 bg-linear-to-br from-navy via-navy to-navy-deep" />
+      {/* Deep near-black hero background */}
+      <div className="absolute inset-0 -z-10 bg-[#000310]" />
       <div className="absolute inset-0 -z-10 pointer-events-none">
         <div className="absolute top-1/4 left-[12%] h-[500px] w-[500px] rounded-full bg-electric/10 blur-[140px]" />
         <div className="absolute bottom-1/4 right-[8%] h-[360px] w-[360px] rounded-full bg-electric/10 blur-[120px]" />
@@ -102,7 +102,13 @@ export function Hero() {
                 muted
                 playsInline
                 aria-hidden="true"
-                className="h-full w-full object-contain"
+                className="h-full w-full object-contain mix-blend-screen"
+                style={{
+                  maskImage:
+                    'radial-gradient(ellipse 62% 62% at 50% 50%, #000 60%, transparent 82%)',
+                  WebkitMaskImage:
+                    'radial-gradient(ellipse 62% 62% at 50% 50%, #000 60%, transparent 82%)',
+                }}
               />
             </div>
 

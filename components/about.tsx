@@ -34,12 +34,12 @@ export function About() {
             </div>
 
             {/* Floating stat card */}
-            <div className="absolute -bottom-6 right-4 rounded-xl border border-electric/30 bg-sec-card p-5 shadow-xl shadow-navy/10 md:right-8">
+            {/* <div className="absolute -bottom-6 right-4 rounded-xl border border-electric/30 bg-sec-card p-5 shadow-xl shadow-navy/10 md:right-8">
               <p className="font-display text-3xl font-bold text-electric">1</p>
               <p className="mt-0.5 text-xs font-medium uppercase tracking-widest text-mid-grey">
                 Partner, Port to Door
               </p>
-            </div>
+            </div> */}
 
             {/* corner accent */}
             <div className="absolute -left-4 -top-4 h-24 w-24 rounded-xl border border-electric/25 bg-electric/6" />
