@@ -113,28 +113,77 @@ export default function RootLayout({
 }>) {
   const orgJsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Haulflair',
-    url: siteUrl,
-    logo: `${siteUrl}/icon.svg`,
-    description:
-      'Technology-driven US drayage and warehousing specialist — port pickup to final delivery, with real-time container intelligence and full shipment visibility.',
-    email: 'sales@haulflair.com',
-    contactPoint: [
+    '@graph': [
       {
-        '@type': 'ContactPoint',
-        contactType: 'sales',
+        '@type': 'Organization',
+        '@id': `${siteUrl}/#organization`,
+        name: 'Haulflair',
+        url: siteUrl,
+        logo: {
+          '@type': 'ImageObject',
+          url: `${siteUrl}/icon.svg`,
+        },
+        image: `${siteUrl}${ogImage}`,
+        description:
+          'Technology-driven US drayage and warehousing specialist — port pickup to final delivery, with real-time container intelligence and full shipment visibility.',
         email: 'sales@haulflair.com',
-        telephone: '+91-7259963859',
+        contactPoint: [
+          {
+            '@type': 'ContactPoint',
+            contactType: 'sales',
+            email: 'sales@haulflair.com',
+            telephone: '+91-7259963859',
+            availableLanguage: ['English'],
+          },
+          {
+            '@type': 'ContactPoint',
+            contactType: 'customer support',
+            email: 'info@haulflair.com',
+            telephone: '+91-8310172085',
+            availableLanguage: ['English'],
+          },
+        ],
+        areaServed: {
+          '@type': 'Country',
+          name: 'United States',
+        },
+        knowsAbout: [
+          'US drayage',
+          'container drayage',
+          'port drayage',
+          'warehousing and fulfillment',
+          'B2B and B2C fulfillment',
+          'cross-docking',
+          'shipment visibility',
+        ],
       },
-    ],
-    areaServed: 'US',
-    knowsAbout: [
-      'US drayage',
-      'container drayage',
-      'warehousing and fulfillment',
-      'B2B and B2C fulfillment',
-      'shipment visibility',
+      {
+        '@type': 'WebSite',
+        '@id': `${siteUrl}/#website`,
+        url: siteUrl,
+        name: 'Haulflair',
+        description: 'US drayage and warehousing partner for freight forwarders and importers.',
+        publisher: { '@id': `${siteUrl}/#organization` },
+        inLanguage: 'en-US',
+      },
+      {
+        '@type': 'Service',
+        name: 'US Drayage Services',
+        serviceType: 'Container drayage',
+        provider: { '@id': `${siteUrl}/#organization` },
+        areaServed: { '@type': 'Country', name: 'United States' },
+        description:
+          'Smart port drayage from major US ports to Amazon Fulfillment Centers, Walmart Distribution Centers, B2B warehouses, and 3PL facilities — with real-time container intelligence and predictive demurrage prevention.',
+      },
+      {
+        '@type': 'Service',
+        name: 'Warehousing & Fulfillment',
+        serviceType: 'Warehousing and fulfillment',
+        provider: { '@id': `${siteUrl}/#organization` },
+        areaServed: { '@type': 'Country', name: 'United States' },
+        description:
+          'Flexible B2B and B2C warehousing across key US logistics hubs — short-term storage, cross-docking, and full order fulfillment, backed by live visibility and AI-powered slotting.',
+      },
     ],
   }
 
