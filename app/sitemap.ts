@@ -6,7 +6,7 @@ const siteUrl = 'https://www.haulflair.com'
 // Bump this when the page content actually changes. Using `new Date()` here
 // would stamp a fresh date on every deploy, which tells crawlers the content
 // changed when it did not — repeated false signals get lastmod ignored.
-const lastModified = '2026-07-29'
+const lastModified = '2026-07-30'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

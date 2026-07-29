@@ -57,6 +57,12 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
+  // Google Search Console ownership proof. Emits
+  // <meta name="google-site-verification" ...>. Leave this in permanently —
+  // removing it after verifying can drop the property's verified status.
+  verification: {
+    google: 'd2SmQqOR2bZkgpyBv2eQW4rktFzdsX52u3Pzxe3PlN4',
+  },
   robots: {
     index: true,
     follow: true,
