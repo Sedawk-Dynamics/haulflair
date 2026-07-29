@@ -1,6 +1,9 @@
 import type { MetadataRoute } from 'next'
 
-const siteUrl = 'https://haulflair.com'
+// The apex 308-redirects to www, so www is the canonical host. Keep this in
+// sync with layout.tsx and sitemap.ts — a mismatch points the canonical at a
+// URL that redirects away from the page Google actually crawled.
+const siteUrl = 'https://www.haulflair.com'
 
 export default function robots(): MetadataRoute.Robots {
   return {

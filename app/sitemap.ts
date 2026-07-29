@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 
-const siteUrl = 'https://haulflair.com'
+// Must match layout.tsx and robots.ts — the apex 308-redirects to www.
+const siteUrl = 'https://www.haulflair.com'
 
 // Bump this when the page content actually changes. Using `new Date()` here
 // would stamp a fresh date on every deploy, which tells crawlers the content
@@ -10,6 +11,7 @@ const lastModified = '2026-07-29'
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
+      // No trailing slash — matches the canonical Next emits byte for byte.
       url: siteUrl,
       lastModified,
       changeFrequency: 'monthly',

@@ -17,7 +17,9 @@ const sora = Sora({
   display: 'swap',
 })
 
-const siteUrl = 'https://haulflair.com'
+// The apex 308-redirects to www, so www is the host Google actually crawls.
+// Keep in sync with robots.ts and sitemap.ts.
+const siteUrl = 'https://www.haulflair.com'
 // 1200x630 social card — the aspect ratio summary_large_image and Facebook expect.
 const ogImage = '/og-image.jpg'
 
@@ -101,6 +103,7 @@ export const metadata: Metadata = {
       { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
       { url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
       { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/icon-512.png', type: 'image/png', sizes: '512x512' },
     ],
     apple: [{ url: '/apple-icon.png', sizes: '180x180' }],
     shortcut: '/favicon.ico',
@@ -140,6 +143,16 @@ export default function RootLayout({
         description:
           'Technology-driven US drayage and warehousing specialist — port pickup to final delivery, with real-time container intelligence and full shipment visibility.',
         email: 'sales@haulflair.com',
+        // Google uses address + sameAs to resolve Haulflair as a real entity
+        // (knowledge panel). Country is all we can state from existing site
+        // copy — fill in streetAddress / addressLocality / postalCode when
+        // you have the registered address to hand.
+        address: {
+          '@type': 'PostalAddress',
+          addressCountry: 'IN',
+        },
+        // TODO: add your LinkedIn / social profile URLs here, e.g.
+        // sameAs: ['https://www.linkedin.com/company/haulflair'],
         contactPoint: [
           {
             '@type': 'ContactPoint',
