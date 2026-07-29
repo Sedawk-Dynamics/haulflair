@@ -76,10 +76,10 @@ export function Contact() {
                   icon={Phone}
                   label="Phone"
                   lines={[
-                    <a key="p1" href="tel:7259963859" className="transition-colors hover:text-sec-heading">
+                    <a key="p1" href="tel:+917259963859" className="transition-colors hover:text-sec-heading">
                       +91 7259963859
                     </a>,
-                    <a key="p2" href="tel:8310172085" className="transition-colors hover:text-sec-heading">
+                    <a key="p2" href="tel:+918310172085" className="transition-colors hover:text-sec-heading">
                       +91 8310172085
                     </a>,
                   ]}

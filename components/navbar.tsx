@@ -37,11 +37,12 @@ export function Navbar() {
             {/* Logo */}
             <a href="#" className="flex items-center shrink-0" aria-label="Haulflair home">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Haulflair%20logo%20without%20background-UBBXNLpkfxewBdWt7onCbHhz1hMlew.png"
-                alt="Haulflair"
+                src="/haulflair-logo.png"
+                alt="Haulflair — US drayage and warehousing"
                 width={240}
                 height={70}
                 priority
+                sizes="(max-width: 1024px) 192px, 224px"
                 className="h-12 lg:h-14 w-auto object-contain"
               />
             </a>

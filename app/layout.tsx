@@ -18,16 +18,19 @@ const sora = Sora({
 })
 
 const siteUrl = 'https://haulflair.com'
-const ogImage = '/images/hero-bg.png'
+// 1200x630 social card — the aspect ratio summary_large_image and Facebook expect.
+const ogImage = '/og-image.jpg'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Haulflair — US Drayage & Warehousing Partner for Freight Forwarders',
+    // Kept under ~60 characters so it is not truncated in search results.
+    default: 'US Drayage & Warehousing for Freight Forwarders | Haulflair',
     template: '%s | Haulflair',
   },
+  // Kept under ~155 characters so the full snippet renders in search results.
   description:
-    'Haulflair is a technology-driven US drayage and warehousing specialist. From port pickup to final delivery into Amazon FCs, Walmart DCs, and B2B/B2C warehouses — with real-time container intelligence and full shipment visibility for freight forwarders and importers.',
+    'US drayage and warehousing, engineered smarter. Port pickup to final delivery into Amazon FCs, Walmart DCs and B2B/B2C warehouses — with full visibility.',
   applicationName: 'Haulflair',
   authors: [{ name: 'Haulflair' }],
   creator: 'Haulflair',
@@ -74,8 +77,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: ogImage,
-        width: 1024,
-        height: 1024,
+        width: 1200,
+        height: 630,
         alt: 'Haulflair — US drayage and warehousing partner',
       },
     ],
@@ -85,7 +88,12 @@ export const metadata: Metadata = {
     title: 'Haulflair — US Drayage & Warehousing, Engineered Smarter',
     description:
       'Reliable US drayage, flexible B2B & B2C warehousing, and complete shipment visibility — the partner freight forwarders and importers can count on.',
-    images: [ogImage],
+    images: [
+      {
+        url: ogImage,
+        alt: 'Haulflair — US drayage and warehousing partner',
+      },
+    ],
   },
   icons: {
     icon: [
@@ -118,10 +126,13 @@ export default function RootLayout({
         '@type': 'Organization',
         '@id': `${siteUrl}/#organization`,
         name: 'Haulflair',
+        legalName: 'Haulflair Private Limited',
         url: siteUrl,
         logo: {
           '@type': 'ImageObject',
-          url: `${siteUrl}/icon.svg`,
+          url: `${siteUrl}/haulflair-logo.png`,
+          width: 1281,
+          height: 404,
         },
         image: `${siteUrl}${ogImage}`,
         description:
@@ -167,7 +178,21 @@ export default function RootLayout({
         inLanguage: 'en-US',
       },
       {
+        '@type': 'WebPage',
+        '@id': `${siteUrl}/#webpage`,
+        url: siteUrl,
+        name: 'US Drayage & Warehousing for Freight Forwarders | Haulflair',
+        description:
+          'US drayage and warehousing, engineered smarter. Port pickup to final delivery into Amazon FCs, Walmart DCs and B2B/B2C warehouses — with full visibility.',
+        isPartOf: { '@id': `${siteUrl}/#website` },
+        about: { '@id': `${siteUrl}/#organization` },
+        primaryImageOfPage: `${siteUrl}${ogImage}`,
+        inLanguage: 'en-US',
+      },
+      {
         '@type': 'Service',
+        '@id': `${siteUrl}/#service-drayage`,
+        url: `${siteUrl}/#services`,
         name: 'US Drayage Services',
         serviceType: 'Container drayage',
         provider: { '@id': `${siteUrl}/#organization` },
@@ -177,6 +202,8 @@ export default function RootLayout({
       },
       {
         '@type': 'Service',
+        '@id': `${siteUrl}/#service-warehousing`,
+        url: `${siteUrl}/#services`,
         name: 'Warehousing & Fulfillment',
         serviceType: 'Warehousing and fulfillment',
         provider: { '@id': `${siteUrl}/#organization` },
@@ -190,6 +217,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${sora.variable} bg-navy-deep`}>
       <body className="font-sans antialiased">
+        {/*
+          Scroll-reveal sections start at opacity:0 and are un-hidden by an
+          IntersectionObserver. Crawlers that do not execute JS (many AI and
+          social bots) would otherwise read the page body as hidden text, so
+          they get the fully-visible end state instead.
+        */}
+        <noscript
+          dangerouslySetInnerHTML={{
+            __html: `<style>.reveal{opacity:1!important;transform:none!important}</style>`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}

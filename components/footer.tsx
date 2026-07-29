@@ -28,11 +28,14 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-1">
+            {/* Decorative — the wordmark is already announced by the navbar logo. */}
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Haulflair%20logo%20without%20background-UBBXNLpkfxewBdWt7onCbHhz1hMlew.png"
-              alt="Haulflair"
+              src="/haulflair-logo.png"
+              alt=""
+              aria-hidden="true"
               width={160}
               height={44}
+              sizes="144px"
               className="mb-5 h-9 w-auto"
             />
             <p className="max-w-xs text-sm leading-relaxed text-light-grey/70">
@@ -49,7 +52,7 @@ export function Footer() {
                 <Mail size={15} />
               </a>
               <a
-                href="tel:7259963859"
+                href="tel:+917259963859"
                 className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-light-grey/70 transition-all duration-300 hover:border-electric/50 hover:text-electric-bright"
                 aria-label="Call Haulflair"
               >
@@ -60,9 +63,9 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="mb-5 text-xs font-semibold uppercase tracking-widest text-electric-bright">
+            <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-electric-bright">
               Services
-            </h4>
+            </h3>
             <ul className="space-y-3">
               {serviceLinks.map((label) => (
                 <li key={label}>
@@ -79,9 +82,9 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="mb-5 text-xs font-semibold uppercase tracking-widest text-electric-bright">
+            <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-electric-bright">
               Company
-            </h4>
+            </h3>
             <ul className="space-y-3">
               {companyLinks.map((link) => (
                 <li key={link.label}>
@@ -98,17 +101,17 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="mb-5 text-xs font-semibold uppercase tracking-widest text-electric-bright">
+            <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-electric-bright">
               Contact
-            </h4>
+            </h3>
             <div className="space-y-4">
               <div className="flex gap-3">
                 <Phone size={14} className="mt-0.5 shrink-0 text-electric-bright" />
                 <div className="space-y-0.5 text-sm text-light-grey/70">
-                  <a href="tel:7259963859" className="block transition-colors hover:text-electric-bright">
+                  <a href="tel:+917259963859" className="block transition-colors hover:text-electric-bright">
                     +91 7259963859
                   </a>
-                  <a href="tel:8310172085" className="block transition-colors hover:text-electric-bright">
+                  <a href="tel:+918310172085" className="block transition-colors hover:text-electric-bright">
                     +91 8310172085
                   </a>
                 </div>

@@ -7,8 +7,10 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
+      // Unused shadcn/v0 scaffolding assets — no reason to spend crawl budget
+      // on them or risk them surfacing in image search.
+      disallow: ['/placeholder.svg', '/placeholder.jpg', '/placeholder-logo.*', '/placeholder-user.*'],
     },
     sitemap: `${siteUrl}/sitemap.xml`,
-    host: siteUrl,
   }
 }

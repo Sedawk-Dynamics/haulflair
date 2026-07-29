@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react'
 
-const LOGO_URL =
-  'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Haulflair%20logo%20without%20background-UBBXNLpkfxewBdWt7onCbHhz1hMlew.png'
+// Self-hosted: this image is the LCP element while the splash is on screen,
+// so it must not pay for a third-party DNS lookup + TLS handshake first.
+const LOGO_URL = '/haulflair-logo.png'
 
 const SESSION_KEY = 'hf-splash-shown'
 const HOLD_MS = 2600 // visible duration

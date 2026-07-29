@@ -14,3 +14,7 @@ node_modules
 .next/
 .DS_Store
 .vercel
+
+# This project uses pnpm — a second lockfile makes the package manager
+# ambiguous on the build server.
+package-lock.json

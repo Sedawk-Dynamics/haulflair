@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { ArrowRight, ChevronDown } from 'lucide-react'
 import { Typewriter } from '@/components/typewriter'
 
@@ -12,7 +13,42 @@ const trustPills = [
   'Scalable Fulfillment Infrastructure',
 ]
 
+/**
+ * The globe clip only ever renders at `lg` and up, and it must never compete
+ * with the hero for bandwidth during LCP. So the `src` is withheld until the
+ * page has finished loading *and* the viewport is actually wide enough to show
+ * it — until then the poster (frame 0 of the same clip) stands in, so there is
+ * no visible difference. Phones never download the video at all.
+ */
+function useDeferredGlobeVideo() {
+  const [src, setSrc] = useState<string | undefined>(undefined)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)')
+
+    const load = () => {
+      if (mq.matches) setSrc('/globe.mp4')
+    }
+    const loadWhenIdle = () => {
+      if (document.readyState === 'complete') load()
+      else window.addEventListener('load', load, { once: true })
+    }
+
+    loadWhenIdle()
+    mq.addEventListener('change', loadWhenIdle)
+
+    return () => {
+      window.removeEventListener('load', load)
+      mq.removeEventListener('change', loadWhenIdle)
+    }
+  }, [])
+
+  return src
+}
+
 export function Hero() {
+  const globeSrc = useDeferredGlobeVideo()
+
   return (
     <section className="relative flex min-h-screen flex-col overflow-hidden pt-28 lg:pt-32">
       {/* Deep near-black hero background */}
@@ -96,12 +132,19 @@ export function Hero() {
           <div className="relative min-h-[560px] flex-1 xl:min-h-[640px]">
             <div className="absolute inset-0 flex items-center justify-center">
               <video
-                src="/globe.mp4"
+                src={globeSrc}
+                poster="/globe-poster.jpg"
+                preload="none"
                 autoPlay
                 loop
                 muted
                 playsInline
                 aria-hidden="true"
+                onCanPlay={(e) => {
+                  // The autoplay flag is not always re-armed when src is set
+                  // after mount, so nudge it. Muted + inline, so never blocked.
+                  void e.currentTarget.play().catch(() => {})
+                }}
                 className="h-full w-full object-contain mix-blend-screen"
                 style={{
                   maskImage:
