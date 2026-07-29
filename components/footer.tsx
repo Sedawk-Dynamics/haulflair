@@ -136,7 +136,19 @@ export function Footer() {
           <p className="text-xs text-mid-grey">
             &copy; 2026 Haulflair Private Limited. All rights reserved.
           </p>
-          <p className="text-xs text-mid-grey">Registered in India &mdash; haulflair.com</p>
+          <p className="text-xs text-mid-grey">
+            Registered in India &mdash; haulflair.com
+            <span className="mx-2 text-mid-grey/40">|</span>
+            Designed by{' '}
+            <a
+              href="https://webel.io/"
+              target="_blank"
+              rel="noopener"
+              className="transition-colors duration-200 hover:text-electric-bright"
+            >
+              Webelio
+            </a>
+          </p>
         </div>
       </div>
     </footer>
